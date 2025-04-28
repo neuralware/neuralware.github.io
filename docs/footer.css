@@ -1,0 +1,63 @@
+.nav-footer {
+    background-color: #222;
+    color: #eee;
+    padding: 2rem;
+    font-size: 0.9rem;
+    margin-top: 3rem;
+}
+
+.footer-top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.footer-top > div {
+flex: 1 1 200px;
+min-width: 180px;
+}
+
+.footer-bottom {
+text-align: center;
+margin-top: 1.5rem;
+border-top: 1px solid #444;
+padding-top: 1rem;
+font-size: 0.8rem;
+color: #aaa;
+}
+
+.footer-top a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.footer-top a:hover {
+    text-decoration: underline;
+}
+
+.footer-newsletter form {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.footer-newsletter input[type="email"] {
+    flex-grow: 1;
+    padding: 0.4rem;
+    border-radius: 3px;
+    border: none;
+}
+
+.footer-newsletter button {
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.footer-newsletter button:hover {
+    background-color: #005fa3;
+}

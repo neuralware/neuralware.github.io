@@ -1,0 +1,82 @@
+/* css styles */
+
+h1, h2, h3, h4, h5, h6, h1.title {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+}
+
+p, body, li {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.98em;
+}
+
+p.subtitle.lead {
+    font-family: 'Sora', sans-serif;
+    font-weight: 350;
+    font-size: 1em;
+}
+
+pre {
+    font-family: 'Geist Mono', monospace;
+}
+
+.label {
+    font-family: 'Geist Mono', monospace;
+}
+
+.navbar-title {
+    display: none !important;
+}
+
+figcaption {
+    text-align: center;
+}
+
+.code-with-filename .code-with-filename-file {
+    background-color: rgb(255, 255, 255);
+}
+
+pre.sourceCode {
+    background-color: #f8f9fa;
+}
+
+.quarto-about-jolla .content {
+    text-align: left;
+}
+
+.quarto-about-jolla .blockquote {
+    color: #d32f2f;
+    font-style: normal;
+}
+
+.img-fluid {
+    border-radius: 3%;
+}
+
+.first-letter {
+    font-size: 3em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #d32f2f;
+    line-height: 0.95; /* Adjust line height to avoid extra space */
+}
+
+.neuralware {
+    font-family: 'Lexend', sans-serif;
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.quarto-title .quarto-categories .quarto-category {
+    background-color: #d32f2f;
+    color: #ffffff;
+    opacity: 1.0;
+}
+
+.nav-footer {
+    display: block;
+}
+
+a {
+    color: #d32f2f;
+}
