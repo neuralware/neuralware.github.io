@@ -1,0 +1,23 @@
+---
+title: "About Me"
+about: 
+  image: img/prof_pic.jpg
+  template: jolla
+---
+
+<span class="first-letter">I'</span>m Prashant Patel, an AI/ML Engineer with a love for building clean, thoughtful, and scalable systems. I've worked across both consultancies and large product companies, which has given me a strong foundation in system integration, solution architecture, and the many hats an AI Engineer ends up wearing - be it MLOps, backend development, or designing intelligent solutions end-to-end.
+
+I approach software design like building with LEGO-structured, modular, and purposeful. To me, writing code is a quiet act of communication with the future; it should be as clear and intentional as a well-written message to the next developer who picks it up. I enjoy thinking at abstract levels and solving real-world problems with elegance and simplicity. 🌱
+
+A couple of years ago, I started <span class="neuralware">neuralware.</span> - a name that reflects where I believe software is headed: systems powered not just by logic, but by learning. It's rooted in a long-standing fascination with neural networks and the idea that software is evolving into something more organic, more adaptable.
+
+Reading _Building a Second Brain by Tiago Forte_ inspired me to begin sharing my knowledge through this blog. We now live in an era where AI models are trained on our digital footprints - our code, our thoughts, our documentation. I believe that to shape a truly insightful oracle for the future, we need to feed it new, thoughtful, and human content - not just recycled history. It struck me how timely it is to contribute something meaningful to the growing collective knowledge.
+
+I naturally learn by doing - constantly experimenting, absorbing new ideas, and refining my understanding. This process of creation and iteration resonates deeply with the idea that **we only know what we make**, as Giambattista Vico so eloquently put it:
+
+> ## "Verum Ipsum Factum"
+> -- Giambattista Vico, an Italian Philosopher
+
+Outside of work, you'll find me either chasing after my toddler, getting lost in a good book, or immersing myself in platformer games on my Switch. I'm not one for spending much time outdoors - unless there's a mountain involved. While I'm no professional climber, I am always up for scaling heights with good company to enjoy the views from the top; I find it the best way to disconnect and refresh.
+
+![Climbing Cat Bells with my wife (Lake District, Cumbria)](/img/catbells.jpeg)

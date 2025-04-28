@@ -1,0 +1,52 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: neuralware
+  site-url: "https://neuralware.github.io"
+  repo-url: "https://github.com/neuralware"
+  favicon: "/img/nw-fav.png"
+  page-footer: 
+    background: light
+    center: |
+      <br/>
+      <img src='https://neuralware.github.io/img/nw.png' height=35px/>
+      <br/>
+      <p>© 2025 Neuralware</p> 
+      <p>Content available under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 International License</a></p>
+      <br/>
+  
+  navbar:
+    pinned: true
+
+    right:
+      - text: "Posts"
+        file: index.qmd
+      - about.qmd
+      - icon: linkedin
+        aria-label: linkedin
+        href: https://www.linkedin.com/in/prashant-patel/
+      - icon: github
+        aria-label: github
+        href: https://github.com/neuralware
+      - icon: envelope
+        aria-label: email
+        href: "mailto:prashant.patel@gmx.com"
+      - icon: rss
+        href: index.xml
+
+format:
+  html:
+    theme: litera
+    smooth-scroll: true      
+    mainfont: Space Grotesk
+    monofont: Geist Mono
+    css: 
+      - styles.css
+      - footer.css
+    mermaid:
+      theme: neutral
+
+execute:
+  freeze: auto

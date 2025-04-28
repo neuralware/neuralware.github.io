@@ -1,0 +1,15 @@
+---
+title: "👋 Hey there!"
+subtitle: "Welcome to my blog. This is where I document my learning journey - clear, detailed, and practical enough to follow without feeling like reading a textbook."
+listing:
+  contents: posts
+  type: table
+  sort: "date desc"
+  categories: true
+  sort-ui: false
+  filter-ui: false
+  fields: [date, title]
+  feed: true
+page-layout: full
+title-block-banner: true
+---

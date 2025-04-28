@@ -1,0 +1,94 @@
+{
+	// The name of the development container
+	"name": "Python 3",
+
+	// Configuration for building the container
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+
+	// Features to enable in the dev container
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
+
+	// Ports to forward from the container to the host
+	// Currently empty as no ports are forwarded
+	"forwardPorts": [],
+
+	// Command to run after the container is created
+	"postCreateCommand": "bash .devcontainer/post-script.sh",
+
+	// Command to run after the container starts
+	"postStartCommand": "git config --add safe.directory ${containerWorkspaceFolder}",
+
+	// Customizations for the VS Code editor
+	"customizations": {
+		"vscode": {
+			
+			// List of VS Code extensions to be automatically installed in the container
+			"extensions": [
+				"tamasfe.even-better-toml",   // TOML file syntax highlighting and features
+				"wholroyd.jinja",             // Jinja2 template syntax support
+				"ms-toolsai.jupyter",         // Jupyter notebook support
+				"ms-python.python",           // Python language support
+				"charliermarsh.ruff",         // Python linting and formatting
+				"redhat.vscode-yaml",         // YAML file support
+				"Catppuccin.catppuccin-vsc",  // Catppuccin theme for VS Code
+				"PKief.material-icon-theme",  // Material design icons for VS Code
+				"bierner.markdown-mermaid",   // Mermaid diagrams in Markdown files
+				"Gruntfuggly.todo-tree",      // View TODOs in the project
+				"quarto.quarto"				  // Technical publishing system
+			],
+			
+			// VS Code editor settings
+			"settings": {
+				"files.eol": "\n",
+				"extensions.autoUpdate": true,      
+				"extensions.autoCheckUpdates": true,
+				"extensions.trust.enabled": false,
+				"[python]": {
+					"editor.formatOnSave": true,
+					"editor.codeActionsOnSave": {
+						"source.fixAll": "explicit"
+					}
+				},
+				"workbench.iconTheme": "material-icon-theme",
+				"editor.fontFamily": "'IBM Plex Mono', 'JetBrains Mono', Monaco, Consolas, monospace",
+				"editor.lineHeight": 1.73,
+				"editor.letterSpacing": 0,
+				"editor.smoothScrolling": true,
+				"editor.fontLigatures": true,
+				"editor.defaultFormatter": "charliermarsh.ruff",
+				"jupyter.askForKernelRestart": false,
+				"jupyter.interactiveWindow.textEditor.executeSelection": true,
+				"notebook.output.wordWrap": true,
+				"remote.autoForwardPortsSource": "hybrid",
+				"editor.wordWrap": "on",
+				"notebook.formatOnSave.enabled": true,
+				"editor.fontSize": 13.5,
+				"editor.formatOnSave": true,
+				"terminal.integrated.fontSize": 13.5,
+				"terminal.integrated.lineHeight": 1.1,
+				"workbench.colorTheme": "Catppuccin Mocha",
+				"python.testing.pytestArgs": ["tests"],
+				"python.testing.unittestEnabled": false,
+				"python.testing.pytestEnabled": true,
+				"python.terminal.activateEnvironment": true,
+				"ruff.configuration": "ruff.toml",
+				"ruff.organizeImports": true,
+				"ruff.fixAll": true
+			}
+		}
+	},
+
+	// Environment variables to set inside the container
+	"containerEnv": {
+		"UV_LINK_MODE": "copy",
+		"UV_PROJECT_ENVIRONMENT": ".venv"  // Set the virtual environment directory to '.venv'
+	},
+
+	// Set the user for running commands inside the container
+	// 'vscode' is the default user in VS Code devcontainers
+	"remoteUser": "vscode"
+}

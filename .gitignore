@@ -1,0 +1,8 @@
+/.quarto/
+*.csv
+*.xlsx
+*.xls
+.DS_Store
+/_*.local
+/.venv/
+/_site/
