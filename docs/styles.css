@@ -1,11 +1,23 @@
 /* css styles */
+@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap');
 
-h1, h2, h3, h4, h5, h6, h1.title {
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h1.title {
     font-family: 'Sora', sans-serif;
     font-weight: 700;
 }
 
-p, body, li {
+p,
+body,
+li {
     font-family: 'Work Sans', sans-serif;
     font-size: 0.98em;
 }
@@ -58,7 +70,8 @@ pre.sourceCode {
     font-weight: bold;
     text-transform: uppercase;
     color: #d32f2f;
-    line-height: 0.95; /* Adjust line height to avoid extra space */
+    line-height: 0.95;
+    /* Adjust line height to avoid extra space */
 }
 
 .neuralware {
