@@ -5,11 +5,11 @@ listing:
   contents: posts
   type: table
   sort: "date desc"
-  categories: true
+  categories: false
   sort-ui: false
   filter-ui: false
   fields: [date, title]
   feed: true
-page-layout: full
+page-layout: article
 title-block-banner: true
 ---

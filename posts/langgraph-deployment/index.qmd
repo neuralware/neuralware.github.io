@@ -5,6 +5,11 @@ date: 2025-04-25
 format:
   html:
     code-fold: false
+    code-links:
+      - text: LangGraph Deployment
+        icon: github
+        href: https://github.com/neuralware/langgraph-deployment
+        target: "_blank"
 categories: [AI Agents, Deployment, LangGraph]
 ---
 
