@@ -93,3 +93,8 @@ pre.sourceCode {
 a {
     color: #d32f2f;
 }
+
+.table {
+    border-top: none;
+    border-bottom: 1px white;
+}

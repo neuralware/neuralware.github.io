@@ -10,7 +10,7 @@ license: "CC BY-NC"
 
 toc: true
 toc-title: Table of Contents
-toc-location: left
+toc-location: right
 toc-depth: 3
 
 execute:

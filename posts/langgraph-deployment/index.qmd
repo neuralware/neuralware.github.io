@@ -1,5 +1,5 @@
 ---
-title: "How to Build and Deploy an AI Agent Using LangGraph from Scratch"
+title: "How to Build and Deploy an AI Agent using LangGraph from Scratch"
 author: "Prashant Patel"
 date: 2025-04-25
 format:
