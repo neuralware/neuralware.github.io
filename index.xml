@@ -12,7 +12,7 @@
 <generator>quarto-1.6.42</generator>
 <lastBuildDate>Fri, 25 Apr 2025 00:00:00 GMT</lastBuildDate>
 <item>
-  <title>How to Build and Deploy an AI Agent Using LangGraph from Scratch</title>
+  <title>How to Build and Deploy an AI Agent using LangGraph from Scratch</title>
   <dc:creator>Prashant Patel</dc:creator>
   <link>https://neuralware.github.io/posts/langgraph-deployment/</link>
   <description><![CDATA[ 
@@ -1203,8 +1203,8 @@ font-style: inherit;">"__main__"</span>:</span>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{patel2025,
   author = {Patel, Prashant},
-  title = {How to {Build} and {Deploy} an {AI} {Agent} {Using}
-    {LangGraph} from {Scratch}},
+  title = {How to {Build} and {Deploy} an {AI} {Agent} Using {LangGraph}
+    from {Scratch}},
   date = {2025-04-25},
   url = {https://neuralware.github.io/posts/langgraph-deployment/},
   langid = {en}
