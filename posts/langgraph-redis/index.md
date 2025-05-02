@@ -9,7 +9,7 @@ draft: false
 categories: [Architecture, LangGraph, Redis]
 ---
 
-In How to Build and Deploy an AI Agent using LangGraph from Scratch, we deployed an AI agent to a standalone container running the LangGraph server. This setup communicates with both PostgreSQL and Redis. In that architecture, PostgreSQL serves as a checkpointer - responsible for persisting agent state across interactions, allowing the agent to "remember" previous conversations.
+In [How to Build and Deploy an AI Agent using LangGraph from Scratch](https://neuralware.github.io/posts/langgraph-deployment/), we deployed an AI agent to a standalone container running the LangGraph server. This setup communicates with both PostgreSQL and Redis. In that architecture, PostgreSQL serves as a checkpointer - responsible for persisting agent state across interactions, allowing the agent to "remember" previous conversations.
 
 However, the role of Redis may have felt less clear. It's briefly described as a task orchestrator and a channel for streaming output, but beyond that, LangGraph’s documentation doesn't dive deep into its purpose or inner workings.
 
@@ -42,10 +42,7 @@ By using Redis as a message broker, LangGraph decouples the components that prod
 A key architectural advantage is Redis' ability to function as both a queue and a broadcast system simultaneously. When your LangGraph agent processes a request:
 
 - PostgreSQL persists the final state (the "what")
-- Redis orchestrates the execution path (the "how") through:
-    - Atomic task^[Atomic tasks means, they either complete fully or not at all] handoffs between components
-    - Non-blocking progress updates to clients
-    - Automatic retries for failed operations
+- Redis orchestrates the execution path (the "how")
 
 This explains why LangGraph requires both databases - while PostgreSQL provides durability, Redis delivers the coordination layer that makes stateful, long-running agent workflows possible.
 
@@ -69,11 +66,11 @@ The Agent creates a new run by inserting it into Postgres and signals workers^[W
 
 ## Crash Resilience
 
-The key to LangGraph’s fault-tolerance lies in how it uses Redis lists as a _transactional queue_. This is achieved via `BLPOP` and Atomic Task Handoffs.
+At the heart of LangGraph’s fault-tolerance lies its use of Redis lists as a _transactional queue_. This is achieved via `BLPOP` and Atomic Task Handoffs.
 
 ### Crash-Safe Task Claiming
 
-When a worker executes a `BLPOP tasks: queue 0` (as shown in the sequence diagram), the operation is **atomic**:
+When a worker executes a `BLPOP tasks: queue 0` (as shown in the sequence diagram), the operation is **atomic**^[Atomic tasks means, they either complete fully or not at all]:
 
 - Redis only removes the task from the list **after** it has been delivered to the worker.
 - If the worker crashes **before** processing the task, the task remains in the queue.
