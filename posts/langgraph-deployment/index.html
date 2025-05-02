@@ -432,7 +432,7 @@ Figure&nbsp;1: LangGraph Components
 <ul>
 <li>LangGraph API – the same service we configured and tested locally in the previous step.</li>
 <li>PostgreSQL – used for persistent storage by LangGraph.</li>
-<li>Redis – used for caching and task orchestration.</li>
+<li>Redis – used for task orchestration and streaming output events through Pub/Sub.</li>
 </ul>
 <p>This local deployment will serve as a lightweight, production-like replica, allowing us to validate the architecture and interactions between components without the overhead of a full Kubernetes setup.</p>
 <div id="fig-container" class="quarto-float quarto-figure quarto-figure-center anchored">
