@@ -21,7 +21,7 @@
 
 
 
-<p>In How to Build and Deploy an AI Agent using LangGraph from Scratch, we deployed an AI agent to a standalone container running the LangGraph server. This setup communicates with both PostgreSQL and Redis. In that architecture, PostgreSQL serves as a checkpointer - responsible for persisting agent state across interactions, allowing the agent to “remember” previous conversations.</p>
+<p>In <a href="https://neuralware.github.io/posts/langgraph-deployment/">How to Build and Deploy an AI Agent using LangGraph from Scratch</a>, we deployed an AI agent to a standalone container running the LangGraph server. This setup communicates with both PostgreSQL and Redis. In that architecture, PostgreSQL serves as a checkpointer - responsible for persisting agent state across interactions, allowing the agent to “remember” previous conversations.</p>
 <p>However, the role of Redis may have felt less clear. It’s briefly described as a task orchestrator and a channel for streaming output, but beyond that, LangGraph’s documentation doesn’t dive deep into its purpose or inner workings.</p>
 <p>One of the advantages of using open-source software is transparency - we can inspect the implementation to truly understand what’s going on under the hood. So that’s exactly what I did. <sup>1</sup></p>
 <p>In this article, we’ll explore how Redis fits into the LangGraph architecture and how it plays a crucial role in enabling fault-tolerant, stateful conversational AI applications, especially when working alongside PostgreSQL and the LangGraph server.</p>
@@ -57,12 +57,7 @@ Note
 <p>A key architectural advantage is Redis’ ability to function as both a queue and a broadcast system simultaneously. When your LangGraph agent processes a request:</p>
 <ul>
 <li>PostgreSQL persists the final state (the “what”)</li>
-<li>Redis orchestrates the execution path (the “how”) through:
-<ul>
-<li>Atomic task<sup>2</sup> handoffs between components</li>
-<li>Non-blocking progress updates to clients</li>
-<li>Automatic retries for failed operations</li>
-</ul></li>
+<li>Redis orchestrates the execution path (the “how”)</li>
 </ul>
 <p>This explains why LangGraph requires both databases - while PostgreSQL provides durability, Redis delivers the coordination layer that makes stateful, long-running agent workflows possible.</p>
 </section>
@@ -82,9 +77,9 @@ Figure&nbsp;1: How LangGraph uses Redis
 </div>
 <section id="explanation" class="level4">
 <h4 class="anchored" data-anchor-id="explanation">Explanation</h4>
-<p>The Agent creates a new run by inserting it into Postgres and signals workers<sup>3</sup> via a sentinel<sup>4</sup> pushed to a Redis list.</p>
+<p>The Agent creates a new run by inserting it into Postgres and signals workers<sup>2</sup> via a sentinel<sup>3</sup> pushed to a Redis list.</p>
 <ol type="1">
-<li>The Worker blocks on Redis list (BLPOP<sup>5</sup>) waiting for a wake-up signal.</li>
+<li>The Worker blocks on Redis list (BLPOP<sup>4</sup>) waiting for a wake-up signal.</li>
 <li>Upon receiving the signal, the worker fetches the actual run data from Postgres.</li>
 <li>The worker executes the run asynchronously.</li>
 <li>During execution, the worker streams output events via Redis PubSub to the agent.</li>
@@ -95,10 +90,10 @@ Figure&nbsp;1: How LangGraph uses Redis
 </section>
 <section id="crash-resilience" class="level2">
 <h2 class="anchored" data-anchor-id="crash-resilience">Crash Resilience</h2>
-<p>The key to LangGraph’s fault-tolerance lies in how it uses Redis lists as a <em>transactional queue</em>. This is achieved via <code>BLPOP</code> and Atomic Task Handoffs.</p>
+<p>At the heart of LangGraph’s fault-tolerance lies its use of Redis lists as a <em>transactional queue</em>. This is achieved via <code>BLPOP</code> and Atomic Task Handoffs.</p>
 <section id="crash-safe-task-claiming" class="level3">
 <h3 class="anchored" data-anchor-id="crash-safe-task-claiming">Crash-Safe Task Claiming</h3>
-<p>When a worker executes a <code>BLPOP tasks: queue 0</code> (as shown in the sequence diagram), the operation is <strong>atomic</strong>:</p>
+<p>When a worker executes a <code>BLPOP tasks: queue 0</code> (as shown in the sequence diagram), the operation is <strong>atomic</strong><sup>5</sup>:</p>
 <ul>
 <li>Redis only removes the task from the list <strong>after</strong> it has been delivered to the worker.</li>
 <li>If the worker crashes <strong>before</strong> processing the task, the task remains in the queue.</li>
@@ -199,10 +194,10 @@ font-style: inherit;">)</span></span></code></pre></div>
 
 <ol>
 <li id="fn1"><p>LangGraph doesn’t publish source code for <code>langgraph-storage</code>, but only wheels. So you have to install the package to view the code. The implementation is present in <code>langgraph_storage.queue</code>↩︎</p></li>
-<li id="fn2"><p>Atomic tasks means, they either complete fully or not at all↩︎</p></li>
-<li id="fn3"><p>Workers in this context are async tasks in Python, they have nothing to do with Redis.↩︎</p></li>
-<li id="fn4"><p>A sentinel is a special placeholder or signal value used within a Redis list to notify workers - it has no actual run info. Not to be confused with Redis Sentinel (the high-availability system).↩︎</p></li>
-<li id="fn5"><p>In a basic queue, if a consumer tries to dequeue a task when the queue is empty, it gets a null response and may need to poll the queue repeatedly. To avoid this, Redis provides a way to implement blocking queues. In a blocking queue, if a consumer tries to dequeue a task when the queue is empty, it is put to sleep by Redis until a task is available.↩︎</p></li>
+<li id="fn2"><p>Workers in this context are async tasks in Python, they have nothing to do with Redis.↩︎</p></li>
+<li id="fn3"><p>A sentinel is a special placeholder or signal value used within a Redis list to notify workers - it has no actual run info. Not to be confused with Redis Sentinel (the high-availability system).↩︎</p></li>
+<li id="fn4"><p>In a basic queue, if a consumer tries to dequeue a task when the queue is empty, it gets a null response and may need to poll the queue repeatedly. To avoid this, Redis provides a way to implement blocking queues. In a blocking queue, if a consumer tries to dequeue a task when the queue is empty, it is put to sleep by Redis until a task is available.↩︎</p></li>
+<li id="fn5"><p>Atomic tasks means, they either complete fully or not at all↩︎</p></li>
 <li id="fn6"><p>RPOP: Redis command to dequeue an element (FIFO)↩︎</p></li>
 </ol>
 </section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{patel2025,
