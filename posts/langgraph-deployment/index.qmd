@@ -210,7 +210,7 @@ While we won't be deploying to a Kubernetes cluster in this guide, we'll simulat
 
 - LangGraph API – the same service we configured and tested locally in the previous step.
 - PostgreSQL – used for persistent storage by LangGraph.
-- Redis – used for caching and task orchestration.
+- Redis – used for task orchestration and streaming output events through Pub/Sub.
 
 This local deployment will serve as a lightweight, production-like replica, allowing us to validate the architecture and interactions between components without the overhead of a full Kubernetes setup.
 

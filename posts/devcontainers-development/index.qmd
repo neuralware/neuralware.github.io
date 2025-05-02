@@ -1,0 +1,17 @@
+---
+title: "Reproducible development environments with VSCode devcontainers"
+author: "Prashant Patel"
+date: 2025-05-03
+format:
+  html:
+    code-fold: false
+    code-links:
+      - text: LangGraph Deployment
+        icon: github
+        href: https://github.com/neuralware/langgraph-deployment
+        target: "_blank"
+draft: true
+categories: [Engineering, Best Practice, Containers]
+---
+
+It's safe to say we have reached a point in software engineering where the phrase "It's working on my machine" should no longer exists. 
