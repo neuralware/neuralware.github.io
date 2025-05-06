@@ -26,4 +26,8 @@ comments:
     repo: neuralware/blog-comments
     issue-term: url    
 
+format:
+  html:
+    include-after-body: ../footer.html
+    
 citation: true

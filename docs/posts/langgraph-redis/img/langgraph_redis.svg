@@ -93,7 +93,7 @@ FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 OTHER DEALINGS IN THE FONT SOFTWARE.
  */
 @font-face {
-  font-family: 'Recursive Variable';
+  font-family: 'Lexend';
   font-style: normal;
   font-display: swap;
   font-weight: 300 1000;
