@@ -1,0 +1,227 @@
+---
+title: "MCPs Explained: The Bridge Between AI and the Real World"
+author: "Prashant Patel"
+date: 2025-05-18
+format:
+  html:
+    code-fold: false
+    code-links:
+      - text: MCP Client Server
+        icon: github
+        href: https://github.com/neuralware/mcp-client-server-demo/
+        target: "_blank"
+categories: [MCP, LangGraph]
+---
+
+If you've been following AI developments lately, you've likely seen the term MCP (Model Control Protocol) gaining traction. But what exactly is it, and why does it matter for the future of AI?
+
+In simple terms, MCP is a standardised way for AI models to interact with external tools and services, unlocking capabilities beyond just generating text. To understand why this is a big deal, let’s break down the problem it solves.
+
+## The Limitation: AI Without Tools Is Like a Brain Without Hands
+
+At their core, large language models (LLMs) are incredibly skilled at predicting and generating text. Ask one to summarise an article or draft a story, and it performs impressively. But ask it to do something - like checking the weather, updating a calendar, or retrieving live data - and it falls short.
+
+Why? Because LLMs alone can't interact with the outside world. They’re like a brilliant mind trapped in a room with no doors - knowledgeable, but unable to act.
+
+## The First Solution: Connecting AI to Tools
+
+To make AI truly useful, developers began linking LLMs to external tools (APIs, databases, web services, etc.). For example:
+
+- A chatbot could fetch real-time stock prices by connecting to a financial API.
+- An AI assistant could schedule meetings by integrating with a calendar service.
+
+But there's a catch: Every tool operates differently.
+
+- A weather API expects inputs in a specific format.
+- A database might require unique authentication steps.
+- A task manager could have its own rules for creating entries.
+    
+This means developers have to manually customise each connection - a tedious and fragile process. If one service updates its API, the entire integration can break.
+
+## MCP: The Universal Plug & Play System for AI Tools
+
+![MCP Conceptual Architecture](./img/mcp_overview.png){#fig-mcp-arch}
+
+Today's AI assistants struggle because every tool connection requires custom wiring. MCP changes this by becoming the USB-like standard for AI - where any compatible service can plug in and work immediately, just like devices with your MacBook using a USB-C hub a.k.a docking station (as illustrated in the conceptual arcitecture).
+
+### How MCP Actually Works
+
+The definition of MCP as per the offical [documentation](https://modelcontextprotocol.io/introduction) is as follows - 
+
+> MCP is an open protocol that standardizes how applications provide context to LLMs. Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect your devices to various peripherals and accessories, MCP provides a standardized way to connect AI models to different data sources and tools.
+
+#### The MCP Server - "USB Devices"
+
+- Each tool or service - Slack, Gmail, Calendar, local files - runs an MCP server
+- These are like USB devices: they translate their native APIs into the standard MCP format
+- Example: When the Calendar server gets a request like "list events", it maps that to Google Calendar's internal API and returns it in a universal format
+
+#### The MCP Client - "Agentic AI Application"
+
+- Lives inside AI agents like Claude, Cursor, etc.
+- It's like your MacBook: it doesn’t care what’s plugged in - as long as it follows the USB standard (the MCP protocol), it can use it immediately
+- Example: When you say "Send an email”, the MCP client routes the request through the hub to the Gmail server, without needing to know Gmail's API details
+
+#### The MCP Protocol - "USB Hub"
+
+The protocol is the hub connecting the client (AI) and servers (tools). It defines the standard interface they all speak:
+
+- Uniform request formats (get_email, list_files, etc.)
+- Consistent response schemas (same field names, types)
+- Predictable error handling
+
+Once a tool implements this protocol, any AI can access it instantly - just like plugging into a USB hub.
+
+### Why This Isn't Just "Another API"
+
+|Traditional Approach|MCP Approach|
+|---|---|
+|Each tool needs custom code|Tools work immediately when installed|
+|APIs break when updated|Built-in version control prevents breaks|
+|AI must learn each tool's quirks|Standardized interactions eliminate guesswork|
+|Hard to combine tools|Tools can "automagically" work together|
+
+#### Real-World Impact
+
+An MCP-enabled AI could:
+
+1. Notice your calendar shows an outdoor meeting    
+2. Check the weather MCP server for rain forecasts
+3. Cross-reference traffic MCP server for delays
+4. Propose rescheduling - all without pre-programmed rules
+    
+This is why developers are excited: MCP isn't just improving tools - it's creating an ecosystem where AI can truly _understand_ and _use_ services as flexibly as humans do.
+
+## Why This Matters for AI's Future
+
+Today's AI assistants are limited because each tool integration requires manual, brittle connections - like a smart home where every device speaks a different language and needs custom programming (no longer the case with introduction of standard Matter protocol, MCP equivalent for smart homes). MCP changes this by introducing a universal standard, enabling three key breakthroughs:  
+
+1. **Dynamic Tool Discovery** - Instead of hard-coding every API, AI systems can automatically discover and use new MCP-compatible tools, much like plug-and-play USB devices.  
+2. **Self-Healing Connections** - Unlike current systems that break when APIs update, MCP builds in versioning and fallback methods, keeping workflows intact.  
+3. **Multi-Tool Reasoning** - Today, chaining actions across services (e.g., checking traffic, rescheduling meetings, and notifying teams) requires months of custom development. With MCP, AI can dynamically combine any compliant tools on the fly, enabling complex, cross-platform automation without pre-built pipelines.  
+
+This shift turns AI from a tool that merely responds into a system that orchestrates - seamlessly blending services the way humans intuitively combine tools to solve problems. The result? Assistants that don’t just follow instructions but proactively adapt to real-world complexity.
+
+## MCP in Practice: Building an AI Agent with Model Control Protocol
+
+Now that we understand MCP's conceptual framework, let's examine how it works in practice through a concrete implementation. We'll explore a simple math-solving AI agent that connects to MCP-enabled tools.
+
+### Anatomy of an MCP System
+
+Our example consists of two core components:
+
+1. MCP Server: The "tool provider" that exposes mathematical operations
+2. MCP Client: The AI agent that leverages these tools dynamically
+
+#### The MCP Server: Math as a Service 🪿
+
+```python
+from mcp.server.fastmcp import FastMCP
+from mcp_server.tools import math_tools
+
+mcp = FastMCP("MCP Server")
+
+# Register tools with MCP instance using decorators dynamically
+mcp.tool()(math_tools.add)
+mcp.tool()(math_tools.multiply)
+
+if __name__ == "__main__":
+    try:
+        mcp.run(transport="streamable-http")
+        print("Started MCP server")
+    except KeyboardInterrupt:
+        print("Exiting...")
+    except Exception as e:
+        print(f"Failed to start MCP Server - {e}")
+```
+
+> The code uses official `mcp` python-sdk to implement a MCP Server. The repo comes with more examples in README.
+
+Key features worth noting:
+
+1. Declarative Tool Registration: Tools are added using simple decorators (`@mcp.tool()`)
+2. Transport Agnostic: The server can use different communication protocols (here using HTTP streaming)
+3. Modular Design: Tools are organized in separate modules (tools/math_tools.py), enabling clean separation of concerns and clean extensibility.
+
+The server exposes two basic operations - addition and multiplication - but could easily scale to include hundreds of tools with the same lightweight pattern.
+
+#### The MCP Client: AI That "Just Knows" How to Use Tools 🧠
+
+```python
+import asyncio
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langgraph.prebuilt import create_react_agent
+from langchain_core.messages import HumanMessage
+
+async def main():
+    client = MultiServerMCPClient({
+        "math": {
+            "url": "http://localhost:8000/mcp",
+            "transport": "streamable_http",
+        }
+    })
+
+    tools = await client.get_tools()
+    agent = create_react_agent("openai:gpt-4.1", tools)
+
+    response = await agent.ainvoke({
+        "messages": [HumanMessage(content="what's (3 + 5) * 12?")]
+    })
+
+    response["messages"][-1].pretty_print()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+> We are using LangGraph to demonstrate client, but it would work with any Agent framework.
+
+Key features worth noting:
+
+1. Automatic Tool Discovery: The client dynamically fetches available tools from the server
+2. Zero Tool-Specific Code: The AI understands how to use add and multiply without explicit programming
+3. Natural Language Interface: The operation (3 + 5) * 12 is solved through conversational interaction
+
+When executed, this agent will:
+
+1. Parse the user's math question
+2. Determine it needs to first add 3 and 5
+3. Then multiply the result by 12
+4. Return the correct answer (96) - all by dynamically composing the available MCP tools
+
+## From Math to Real-World Applications
+
+While our example uses simple math operations, the same pattern scales to enterprise use cases:
+
+```python
+# Hypothetical enterprise MCP server
+mcp.tool()(salesforce.get_opportunities)
+mcp.tool()(jira.create_ticket)
+mcp.tool()(slack.send_message)
+mcp.tool()(bigquery.run_query)
+```
+
+An AI agent with access to these tools could:
+
+- Query Salesforce for new deals
+- Create Jira tickets for follow-ups
+- Notify teams via Slack
+- Log actions in BigQuery
+
+All through natural language requests, with no pre-built workflows.
+
+## Do I need MCP Server for my Project?
+
+⭕ Are you building an Agentic AI Application with tools?  
+⭕ Is any tool calling an internal/external API?  
+⭕ Do you manage multiple, ever-changing APIs?  
+⭕ Should your AI dynamically combine tools?  
+⭕ Will you add more tools over time?  
+
+If you answered **YES** to 2 or more questions, MCP will save you time, reduce fragility, and future-proof your AI stack.
+
+**Next Steps**
+
+1. Start small: Pick one high-impact tool and MCP-enable it.
+2. Use the checklist above to justify MCP adoption to your team.
+2. Monitor ROI: Track reduced dev hours and increased AI capabilities post-MCP.

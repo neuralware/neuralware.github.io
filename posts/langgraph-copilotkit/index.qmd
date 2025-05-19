@@ -1,0 +1,10 @@
+---
+title: "Full-stack AI Application"
+author: "Prashant Patel"
+date: 2025-04-25
+format:
+  html:
+    code-fold: false
+categories: [AI Agents, LangGraph, CopilotKit]
+draft: true
+---

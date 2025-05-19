@@ -10,7 +10,409 @@
 <atom:link href="https://neuralware.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.42</generator>
-<lastBuildDate>Fri, 02 May 2025 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 18 May 2025 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>MCPs Explained: The Bridge Between AI and the Real World</title>
+  <dc:creator>Prashant Patel</dc:creator>
+  <link>https://neuralware.github.io/posts/langgraph-mcp/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>If you’ve been following AI developments lately, you’ve likely seen the term&nbsp;MCP&nbsp;(Model Control Protocol) gaining traction. But what exactly is it, and why does it matter for the future of AI?</p>
+<p>In simple terms, MCP is a&nbsp;standardised way for AI models to interact with external tools and services, unlocking capabilities beyond just generating text. To understand why this is a big deal, let’s break down the problem it solves.</p>
+<section id="the-limitation-ai-without-tools-is-like-a-brain-without-hands" class="level2">
+<h2 class="anchored" data-anchor-id="the-limitation-ai-without-tools-is-like-a-brain-without-hands">The Limitation: AI Without Tools Is Like a Brain Without Hands</h2>
+<p>At their core, large language models (LLMs) are incredibly skilled at&nbsp;predicting and generating text. Ask one to summarise an article or draft a story, and it performs impressively. But ask it to&nbsp;do&nbsp;something - like checking the weather, updating a calendar, or retrieving live data - and it falls short.</p>
+<p>Why? Because&nbsp;LLMs alone can’t interact with the outside world. They’re like a brilliant mind trapped in a room with no doors - knowledgeable, but unable to act.</p>
+</section>
+<section id="the-first-solution-connecting-ai-to-tools" class="level2">
+<h2 class="anchored" data-anchor-id="the-first-solution-connecting-ai-to-tools">The First Solution: Connecting AI to Tools</h2>
+<p>To make AI truly useful, developers began linking LLMs to&nbsp;external tools&nbsp;(APIs, databases, web services, etc.). For example:</p>
+<ul>
+<li>A chatbot could fetch real-time stock prices by connecting to a financial API.</li>
+<li>An AI assistant could schedule meetings by integrating with a calendar service.</li>
+</ul>
+<p>But there’s a catch:&nbsp;Every tool operates differently.</p>
+<ul>
+<li>A weather API expects inputs in a specific format.</li>
+<li>A database might require unique authentication steps.</li>
+<li>A task manager could have its own rules for creating entries.</li>
+</ul>
+<p>This means developers have to&nbsp;manually customise&nbsp;each connection - a tedious and fragile process. If one service updates its API, the entire integration can break.</p>
+</section>
+<section id="mcp-the-universal-plug-play-system-for-ai-tools" class="level2">
+<h2 class="anchored" data-anchor-id="mcp-the-universal-plug-play-system-for-ai-tools">MCP: The Universal Plug &amp; Play System for AI Tools</h2>
+<div id="fig-mcp-arch" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mcp-arch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://neuralware.github.io/posts/langgraph-mcp/img/mcp_overview.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mcp-arch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: MCP Conceptual Architecture
+</figcaption>
+</figure>
+</div>
+<p>Today’s AI assistants struggle because every tool connection requires custom wiring. MCP changes this by becoming the&nbsp;USB-like standard&nbsp;for AI - where any compatible service can plug in and work immediately, just like devices with your MacBook using a USB-C hub a.k.a docking station (as illustrated in the conceptual arcitecture).</p>
+<section id="how-mcp-actually-works" class="level3">
+<h3 class="anchored" data-anchor-id="how-mcp-actually-works">How MCP Actually Works</h3>
+<p>The definition of MCP as per the offical <a href="https://modelcontextprotocol.io/introduction">documentation</a> is as follows -</p>
+<blockquote class="blockquote">
+<p>MCP is an open protocol that standardizes how applications provide context to LLMs. Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect your devices to various peripherals and accessories, MCP provides a standardized way to connect AI models to different data sources and tools.</p>
+</blockquote>
+<section id="the-mcp-server---usb-devices" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-server---usb-devices">The MCP Server - “USB Devices”</h4>
+<ul>
+<li>Each tool or service - Slack, Gmail, Calendar, local files - runs an MCP server</li>
+<li>These are like USB devices: they translate their native APIs into the standard MCP format</li>
+<li>Example: When the Calendar server gets a request like “list events”, it maps that to Google Calendar’s internal API and returns it in a universal format</li>
+</ul>
+</section>
+<section id="the-mcp-client---agentic-ai-application" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-client---agentic-ai-application">The MCP Client - “Agentic AI Application”</h4>
+<ul>
+<li>Lives inside AI agents like Claude, Cursor, etc.</li>
+<li>It’s like your MacBook: it doesn’t care what’s plugged in - as long as it follows the USB standard (the MCP protocol), it can use it immediately</li>
+<li>Example: When you say “Send an email”, the MCP client routes the request through the hub to the Gmail server, without needing to know Gmail’s API details</li>
+</ul>
+</section>
+<section id="the-mcp-protocol---usb-hub" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-protocol---usb-hub">The MCP Protocol - “USB Hub”</h4>
+<p>The protocol is the hub connecting the client (AI) and servers (tools). It defines the standard interface they all speak:</p>
+<ul>
+<li>Uniform request formats (get_email, list_files, etc.)</li>
+<li>Consistent response schemas (same field names, types)</li>
+<li>Predictable error handling</li>
+</ul>
+<p>Once a tool implements this protocol, any AI can access it instantly - just like plugging into a USB hub.</p>
+</section>
+</section>
+<section id="why-this-isnt-just-another-api" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-isnt-just-another-api">Why This Isn’t Just “Another API”</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Traditional Approach</th>
+<th>MCP Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Each tool needs custom code</td>
+<td>Tools work immediately when installed</td>
+</tr>
+<tr class="even">
+<td>APIs break when updated</td>
+<td>Built-in version control prevents breaks</td>
+</tr>
+<tr class="odd">
+<td>AI must learn each tool’s quirks</td>
+<td>Standardized interactions eliminate guesswork</td>
+</tr>
+<tr class="even">
+<td>Hard to combine tools</td>
+<td>Tools can “automagically” work together</td>
+</tr>
+</tbody>
+</table>
+<section id="real-world-impact" class="level4">
+<h4 class="anchored" data-anchor-id="real-world-impact">Real-World Impact</h4>
+<p>An MCP-enabled AI could:</p>
+<ol type="1">
+<li>Notice your calendar shows an outdoor meeting<br>
+</li>
+<li>Check the weather MCP server for rain forecasts</li>
+<li>Cross-reference traffic MCP server for delays</li>
+<li>Propose rescheduling -&nbsp;all without pre-programmed rules</li>
+</ol>
+<p>This is why developers are excited: MCP isn’t just improving tools - it’s creating an ecosystem where AI can truly&nbsp;<em>understand</em>&nbsp;and&nbsp;<em>use</em>&nbsp;services as flexibly as humans do.</p>
+</section>
+</section>
+</section>
+<section id="why-this-matters-for-ais-future" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-matters-for-ais-future">Why This Matters for AI’s Future</h2>
+<p>Today’s AI assistants are limited because each tool integration requires manual, brittle connections - like a smart home where every device speaks a different language and needs custom programming (no longer the case with introduction of standard Matter protocol, MCP equivalent for smart homes). MCP changes this by introducing a universal standard, enabling three key breakthroughs:</p>
+<ol type="1">
+<li><strong>Dynamic Tool Discovery</strong> - Instead of hard-coding every API, AI systems can automatically discover and use new MCP-compatible tools, much like plug-and-play USB devices.<br>
+</li>
+<li><strong>Self-Healing Connections</strong> - Unlike current systems that break when APIs update, MCP builds in versioning and fallback methods, keeping workflows intact.<br>
+</li>
+<li><strong>Multi-Tool Reasoning</strong> - Today, chaining actions across services (e.g., checking traffic, rescheduling meetings, and notifying teams) requires months of custom development. With MCP, AI can dynamically combine any compliant tools on the fly, enabling complex, cross-platform automation without pre-built pipelines.</li>
+</ol>
+<p>This shift turns AI from a tool that merely responds into a system that orchestrates - seamlessly blending services the way humans intuitively combine tools to solve problems. The result? Assistants that don’t just follow instructions but proactively adapt to real-world complexity.</p>
+</section>
+<section id="mcp-in-practice-building-an-ai-agent-with-model-control-protocol" class="level2">
+<h2 class="anchored" data-anchor-id="mcp-in-practice-building-an-ai-agent-with-model-control-protocol">MCP in Practice: Building an AI Agent with Model Control Protocol</h2>
+<p>Now that we understand MCP’s conceptual framework, let’s examine how it works in practice through a concrete implementation. We’ll explore a simple math-solving AI agent that connects to MCP-enabled tools.</p>
+<section id="anatomy-of-an-mcp-system" class="level3">
+<h3 class="anchored" data-anchor-id="anatomy-of-an-mcp-system">Anatomy of an MCP System</h3>
+<p>Our example consists of two core components:</p>
+<ol type="1">
+<li>MCP Server: The “tool provider” that exposes mathematical operations</li>
+<li>MCP Client: The AI agent that leverages these tools dynamically</li>
+</ol>
+<section id="the-mcp-server-math-as-a-service" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-server-math-as-a-service">The MCP Server: Math as a Service 🪿</h4>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> mcp.server.fastmcp <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> FastMCP</span>
+<span id="cb1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> mcp_server.tools <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> math_tools</span>
+<span id="cb1-3"></span>
+<span id="cb1-4">mcp <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> FastMCP(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"MCP Server"</span>)</span>
+<span id="cb1-5"></span>
+<span id="cb1-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Register tools with MCP instance using decorators dynamically</span></span>
+<span id="cb1-7">mcp.tool()(math_tools.add)</span>
+<span id="cb1-8">mcp.tool()(math_tools.multiply)</span>
+<span id="cb1-9"></span>
+<span id="cb1-10"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">__name__</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__main__"</span>:</span>
+<span id="cb1-11">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">try</span>:</span>
+<span id="cb1-12">        mcp.run(transport<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"streamable-http"</span>)</span>
+<span id="cb1-13">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Started MCP server"</span>)</span>
+<span id="cb1-14">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">KeyboardInterrupt</span>:</span>
+<span id="cb1-15">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Exiting..."</span>)</span>
+<span id="cb1-16">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Exception</span> <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> e:</span>
+<span id="cb1-17">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Failed to start MCP Server - </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>e<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span></code></pre></div>
+<blockquote class="blockquote">
+<p>The code uses official <code>mcp</code> python-sdk to implement a MCP Server. The repo comes with more examples in README.</p>
+</blockquote>
+<p>Key features worth noting:</p>
+<ol type="1">
+<li>Declarative Tool Registration: Tools are added using simple decorators (<code>@mcp.tool()</code>)</li>
+<li>Transport Agnostic: The server can use different communication protocols (here using HTTP streaming)</li>
+<li>Modular Design: Tools are organized in separate modules (tools/math_tools.py), enabling clean separation of concerns and clean extensibility.</li>
+</ol>
+<p>The server exposes two basic operations - addition and multiplication - but could easily scale to include hundreds of tools with the same lightweight pattern.</p>
+</section>
+<section id="the-mcp-client-ai-that-just-knows-how-to-use-tools" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-client-ai-that-just-knows-how-to-use-tools">The MCP Client: AI That “Just Knows” How to Use Tools 🧠</h4>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> asyncio</span>
+<span id="cb2-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_mcp_adapters.client <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> MultiServerMCPClient</span>
+<span id="cb2-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langgraph.prebuilt <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> create_react_agent</span>
+<span id="cb2-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_core.messages <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> HumanMessage</span>
+<span id="cb2-5"></span>
+<span id="cb2-6"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> main():</span>
+<span id="cb2-7">    client <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MultiServerMCPClient({</span>
+<span id="cb2-8">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"math"</span>: {</span>
+<span id="cb2-9">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"url"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"http://localhost:8000/mcp"</span>,</span>
+<span id="cb2-10">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"transport"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"streamable_http"</span>,</span>
+<span id="cb2-11">        }</span>
+<span id="cb2-12">    })</span>
+<span id="cb2-13"></span>
+<span id="cb2-14">    tools <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> client.get_tools()</span>
+<span id="cb2-15">    agent <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> create_react_agent(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"openai:gpt-4.1"</span>, tools)</span>
+<span id="cb2-16"></span>
+<span id="cb2-17">    response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> agent.ainvoke({</span>
+<span id="cb2-18">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>: [HumanMessage(content<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"what's (3 + 5) * 12?"</span>)]</span>
+<span id="cb2-19">    })</span>
+<span id="cb2-20"></span>
+<span id="cb2-21">    response[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>][<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].pretty_print()</span>
+<span id="cb2-22"></span>
+<span id="cb2-23"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">__name__</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__main__"</span>:</span>
+<span id="cb2-24">    asyncio.run(main())</span></code></pre></div>
+<blockquote class="blockquote">
+<p>We are using LangGraph to demonstrate client, but it would work with any Agent framework.</p>
+</blockquote>
+<p>Key features worth noting:</p>
+<ol type="1">
+<li>Automatic Tool Discovery: The client dynamically fetches available tools from the server</li>
+<li>Zero Tool-Specific Code: The AI understands how to use add and multiply without explicit programming</li>
+<li>Natural Language Interface: The operation (3 + 5) * 12 is solved through conversational interaction</li>
+</ol>
+<p>When executed, this agent will:</p>
+<ol type="1">
+<li>Parse the user’s math question</li>
+<li>Determine it needs to first add 3 and 5</li>
+<li>Then multiply the result by 12</li>
+<li>Return the correct answer (96) - all by dynamically composing the available MCP tools</li>
+</ol>
+</section>
+</section>
+</section>
+<section id="from-math-to-real-world-applications" class="level2">
+<h2 class="anchored" data-anchor-id="from-math-to-real-world-applications">From Math to Real-World Applications</h2>
+<p>While our example uses simple math operations, the same pattern scales to enterprise use cases:</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Hypothetical enterprise MCP server</span></span>
+<span id="cb3-2">mcp.tool()(salesforce.get_opportunities)</span>
+<span id="cb3-3">mcp.tool()(jira.create_ticket)</span>
+<span id="cb3-4">mcp.tool()(slack.send_message)</span>
+<span id="cb3-5">mcp.tool()(bigquery.run_query)</span></code></pre></div>
+<p>An AI agent with access to these tools could:</p>
+<ul>
+<li>Query Salesforce for new deals</li>
+<li>Create Jira tickets for follow-ups</li>
+<li>Notify teams via Slack</li>
+<li>Log actions in BigQuery</li>
+</ul>
+<p>All through natural language requests, with no pre-built workflows.</p>
+</section>
+<section id="do-i-need-mcp-server-for-my-project" class="level2">
+<h2 class="anchored" data-anchor-id="do-i-need-mcp-server-for-my-project">Do I need MCP Server for my Project?</h2>
+<p>⭕ Are you building an Agentic AI Application with tools?<br>
+⭕ Is any tool calling an internal/external API?<br>
+⭕ Do you manage multiple, ever-changing APIs?<br>
+⭕ Should your AI dynamically combine tools?<br>
+⭕ Will you add more tools over time?</p>
+<p>If you answered <strong>YES</strong> to 2 or more questions, MCP will save you time, reduce fragility, and future-proof your AI stack.</p>
+<p><strong>Next Steps</strong></p>
+<ol type="1">
+<li>Start small: Pick one high-impact tool and MCP-enable it.</li>
+<li>Use the checklist above to justify MCP adoption to your team.</li>
+<li>Monitor ROI: Track reduced dev hours and increased AI capabilities post-MCP.</li>
+</ol>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{patel2025,
+  author = {Patel, Prashant},
+  title = {MCPs {Explained:} {The} {Bridge} {Between} {AI} and the
+    {Real} {World}},
+  date = {2025-05-18},
+  url = {https://neuralware.github.io/posts/langgraph-mcp/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-patel2025" class="csl-entry quarto-appendix-citeas">
+Patel, Prashant. 2025. <span>“MCPs Explained: The Bridge Between AI and
+the Real World.”</span> May 18, 2025. <a href="https://neuralware.github.io/posts/langgraph-mcp/">https://neuralware.github.io/posts/langgraph-mcp/</a>.
+</div></div></section></div> ]]></description>
+  <category>MCP</category>
+  <category>LangGraph</category>
+  <guid>https://neuralware.github.io/posts/langgraph-mcp/</guid>
+  <pubDate>Sun, 18 May 2025 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>How LangGraph Uses Redis for Fault-Tolerant Task Execution</title>
   <dc:creator>Prashant Patel</dc:creator>
