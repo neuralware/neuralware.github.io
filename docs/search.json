@@ -72,56 +72,56 @@
   {
     "objectID": "posts/langgraph-mcp/index.html",
     "href": "posts/langgraph-mcp/index.html",
-    "title": "MCPs Explained: The Bridge Between AI and the Real World",
+    "title": "MCP Explained: The Bridge Between AI and the Real World",
     "section": "",
     "text": "If you’ve been following AI developments lately, you’ve likely seen the term MCP (Model Control Protocol) gaining traction. But what exactly is it, and why does it matter for the future of AI?\nIn simple terms, MCP is a standardised way for AI models to interact with external tools and services, unlocking capabilities beyond just generating text. To understand why this is a big deal, let’s break down the problem it solves."
   },
   {
     "objectID": "posts/langgraph-mcp/index.html#the-limitation-ai-without-tools-is-like-a-brain-without-hands",
     "href": "posts/langgraph-mcp/index.html#the-limitation-ai-without-tools-is-like-a-brain-without-hands",
-    "title": "MCPs Explained: The Bridge Between AI and the Real World",
+    "title": "MCP Explained: The Bridge Between AI and the Real World",
     "section": "The Limitation: AI Without Tools Is Like a Brain Without Hands",
     "text": "The Limitation: AI Without Tools Is Like a Brain Without Hands\nAt their core, large language models (LLMs) are incredibly skilled at predicting and generating text. Ask one to summarise an article or draft a story, and it performs impressively. But ask it to do something - like checking the weather, updating a calendar, or retrieving live data - and it falls short.\nWhy? Because LLMs alone can’t interact with the outside world. They’re like a brilliant mind trapped in a room with no doors - knowledgeable, but unable to act."
   },
   {
     "objectID": "posts/langgraph-mcp/index.html#the-first-solution-connecting-ai-to-tools",
     "href": "posts/langgraph-mcp/index.html#the-first-solution-connecting-ai-to-tools",
-    "title": "MCPs Explained: The Bridge Between AI and the Real World",
+    "title": "MCP Explained: The Bridge Between AI and the Real World",
     "section": "The First Solution: Connecting AI to Tools",
     "text": "The First Solution: Connecting AI to Tools\nTo make AI truly useful, developers began linking LLMs to external tools (APIs, databases, web services, etc.). For example:\n\nA chatbot could fetch real-time stock prices by connecting to a financial API.\nAn AI assistant could schedule meetings by integrating with a calendar service.\n\nBut there’s a catch: Every tool operates differently.\n\nA weather API expects inputs in a specific format.\nA database might require unique authentication steps.\nA task manager could have its own rules for creating entries.\n\nThis means developers have to manually customise each connection - a tedious and fragile process. If one service updates its API, the entire integration can break."
   },
   {
     "objectID": "posts/langgraph-mcp/index.html#mcp-the-universal-plug-play-system-for-ai-tools",
     "href": "posts/langgraph-mcp/index.html#mcp-the-universal-plug-play-system-for-ai-tools",
-    "title": "MCPs Explained: The Bridge Between AI and the Real World",
+    "title": "MCP Explained: The Bridge Between AI and the Real World",
     "section": "MCP: The Universal Plug & Play System for AI Tools",
     "text": "MCP: The Universal Plug & Play System for AI Tools\n\n\n\n\n\n\nFigure 1: MCP Conceptual Architecture (Sakal 2024)\n\n\n\nToday’s AI assistants struggle because every tool connection requires custom wiring. MCP changes this by becoming the USB-like standard for AI - where any compatible service can plug in and work immediately, just like devices with your MacBook using a USB-C hub a.k.a docking station (as illustrated in the conceptual arcitecture).\n\nHow MCP Actually Works\nThe definition of MCP as per the offical documentation is as follows -\n\nMCP is an open protocol that standardizes how applications provide context to LLMs. Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect your devices to various peripherals and accessories, MCP provides a standardized way to connect AI models to different data sources and tools.\n\n\nThe MCP Server - “USB Devices”\n\nEach tool or service - Slack, Gmail, Calendar, local files - runs an MCP server\nThese are like USB devices: they translate their native APIs into the standard MCP format\nExample: When the Calendar server gets a request like “list events”, it maps that to Google Calendar’s internal API and returns it in a universal format\n\n\n\nThe MCP Client - “Agentic AI Application”\n\nLives inside AI agents like Claude, Cursor, etc.\nIt’s like your MacBook: it doesn’t care what’s plugged in - as long as it follows the USB standard (the MCP protocol), it can use it immediately\nExample: When you say “Send an email”, the MCP client routes the request through the hub to the Gmail server, without needing to know Gmail’s API details\n\n\n\nThe MCP Protocol - “USB Hub”\nThe protocol is the hub connecting the client (AI) and servers (tools). It defines the standard interface they all speak:\n\nUniform request formats (get_email, list_files, etc.)\nConsistent response schemas (same field names, types)\nPredictable error handling\n\nOnce a tool implements this protocol, any AI can access it instantly - just like plugging into a USB hub.\n\n\n\nWhy This Isn’t Just “Another API”\n\n\n\n\n\n\n\nTraditional Approach\nMCP Approach\n\n\n\n\nEach tool needs custom code\nTools work immediately when installed\n\n\nAPIs break when updated\nBuilt-in version control prevents breaks\n\n\nAI must learn each tool’s quirks\nStandardized interactions eliminate guesswork\n\n\nHard to combine tools\nTools can “automagically” work together\n\n\n\n\nReal-World Impact\nAn MCP-enabled AI could:\n\nNotice your calendar shows an outdoor meeting\n\nCheck the weather MCP server for rain forecasts\nCross-reference traffic MCP server for delays\nPropose rescheduling - all without pre-programmed rules\n\nThis is why developers are excited: MCP isn’t just improving tools - it’s creating an ecosystem where AI can truly understand and use services as flexibly as humans do."
   },
   {
     "objectID": "posts/langgraph-mcp/index.html#why-this-matters-for-ais-future",
     "href": "posts/langgraph-mcp/index.html#why-this-matters-for-ais-future",
-    "title": "MCPs Explained: The Bridge Between AI and the Real World",
+    "title": "MCP Explained: The Bridge Between AI and the Real World",
     "section": "Why This Matters for AI’s Future",
     "text": "Why This Matters for AI’s Future\nToday’s AI assistants are limited because each tool integration requires manual, brittle connections - like a smart home where every device speaks a different language and needs custom programming (no longer the case with introduction of standard Matter protocol, MCP equivalent for smart homes). MCP changes this by introducing a universal standard, enabling three key breakthroughs:\n\nDynamic Tool Discovery - Instead of hard-coding every API, AI systems can automatically discover and use new MCP-compatible tools, much like plug-and-play USB devices.\n\nSelf-Healing Connections - Unlike current systems that break when APIs update, MCP builds in versioning and fallback methods, keeping workflows intact.\n\nMulti-Tool Reasoning - Today, chaining actions across services (e.g., checking traffic, rescheduling meetings, and notifying teams) requires months of custom development. With MCP, AI can dynamically combine any compliant tools on the fly, enabling complex, cross-platform automation without pre-built pipelines.\n\nThis shift turns AI from a tool that merely responds into a system that orchestrates - seamlessly blending services the way humans intuitively combine tools to solve problems. The result? Assistants that don’t just follow instructions but proactively adapt to real-world complexity."
   },
   {
     "objectID": "posts/langgraph-mcp/index.html#mcp-in-practice-building-an-ai-agent-with-model-control-protocol",
     "href": "posts/langgraph-mcp/index.html#mcp-in-practice-building-an-ai-agent-with-model-control-protocol",
-    "title": "MCPs Explained: The Bridge Between AI and the Real World",
+    "title": "MCP Explained: The Bridge Between AI and the Real World",
     "section": "MCP in Practice: Building an AI Agent with Model Control Protocol",
     "text": "MCP in Practice: Building an AI Agent with Model Control Protocol\nNow that we understand MCP’s conceptual framework, let’s examine how it works in practice through a concrete implementation. We’ll explore a simple math-solving AI agent that connects to MCP-enabled tools.\n\nAnatomy of an MCP System\nOur example consists of two core components:\n\nMCP Server: The “tool provider” that exposes mathematical operations\nMCP Client: The AI agent that leverages these tools dynamically\n\n\nThe MCP Server: Math as a Service 🪿\nfrom mcp.server.fastmcp import FastMCP\nfrom mcp_server.tools import math_tools\n\nmcp = FastMCP(\"MCP Server\")\n\n# Register tools with MCP instance using decorators dynamically\nmcp.tool()(math_tools.add)\nmcp.tool()(math_tools.multiply)\n\nif __name__ == \"__main__\":\n    try:\n        mcp.run(transport=\"streamable-http\")\n        print(\"Started MCP server\")\n    except KeyboardInterrupt:\n        print(\"Exiting...\")\n    except Exception as e:\n        print(f\"Failed to start MCP Server - {e}\")\n\nThe code uses official mcp python-sdk to implement a MCP Server. The repo comes with more examples in README.\n\nKey features worth noting:\n\nDeclarative Tool Registration: Tools are added using simple decorators (@mcp.tool())\nTransport Agnostic: The server can use different communication protocols (here using HTTP streaming)\nModular Design: Tools are organized in separate modules (tools/math_tools.py), enabling clean separation of concerns and clean extensibility.\n\nThe server exposes two basic operations - addition and multiplication - but could easily scale to include hundreds of tools with the same lightweight pattern.\n\n\nThe MCP Client: AI That “Just Knows” How to Use Tools 🧠\nimport asyncio\nfrom langchain_mcp_adapters.client import MultiServerMCPClient\nfrom langgraph.prebuilt import create_react_agent\nfrom langchain_core.messages import HumanMessage\n\nasync def main():\n    client = MultiServerMCPClient({\n        \"math\": {\n            \"url\": \"http://localhost:8000/mcp\",\n            \"transport\": \"streamable_http\",\n        }\n    })\n\n    tools = await client.get_tools()\n    agent = create_react_agent(\"openai:gpt-4.1\", tools)\n\n    response = await agent.ainvoke({\n        \"messages\": [HumanMessage(content=\"what's (3 + 5) * 12?\")]\n    })\n\n    response[\"messages\"][-1].pretty_print()\n\nif __name__ == \"__main__\":\n    asyncio.run(main())\n\nWe are using LangGraph to demonstrate client, but it would work with any Agent framework.\n\nKey features worth noting:\n\nAutomatic Tool Discovery: The client dynamically fetches available tools from the server\nZero Tool-Specific Code: The AI understands how to use add and multiply without explicit programming\nNatural Language Interface: The operation (3 + 5) * 12 is solved through conversational interaction\n\nWhen executed, this agent will:\n\nParse the user’s math question\nDetermine it needs to first add 3 and 5\nThen multiply the result by 12\nReturn the correct answer (96) - all by dynamically composing the available MCP tools"
   },
   {
     "objectID": "posts/langgraph-mcp/index.html#from-math-to-real-world-applications",
     "href": "posts/langgraph-mcp/index.html#from-math-to-real-world-applications",
-    "title": "MCPs Explained: The Bridge Between AI and the Real World",
+    "title": "MCP Explained: The Bridge Between AI and the Real World",
     "section": "From Math to Real-World Applications",
     "text": "From Math to Real-World Applications\nWhile our example uses simple math operations, the same pattern scales to enterprise use cases:\n# Hypothetical enterprise MCP server\nmcp.tool()(salesforce.get_opportunities)\nmcp.tool()(jira.create_ticket)\nmcp.tool()(slack.send_message)\nmcp.tool()(bigquery.run_query)\nAn AI agent with access to these tools could:\n\nQuery Salesforce for new deals\nCreate Jira tickets for follow-ups\nNotify teams via Slack\nLog actions in BigQuery\n\nAll through natural language requests, with no pre-built workflows."
   },
   {
     "objectID": "posts/langgraph-mcp/index.html#do-i-need-mcp-server-for-my-project",
     "href": "posts/langgraph-mcp/index.html#do-i-need-mcp-server-for-my-project",
-    "title": "MCPs Explained: The Bridge Between AI and the Real World",
+    "title": "MCP Explained: The Bridge Between AI and the Real World",
     "section": "Do I need MCP Server for my Project?",
     "text": "Do I need MCP Server for my Project?\n⭕ Are you building an Agentic AI Application with tools?\n⭕ Is any tool calling an internal/external API?\n⭕ Do you manage multiple, ever-changing APIs?\n⭕ Should your AI dynamically combine tools?\n⭕ Will you add more tools over time?\nIf you answered YES to 2 or more questions, MCP will save you time, reduce fragility, and future-proof your AI stack.\nNext Steps\n\nStart small: Pick one high-impact tool and MCP-enable it.\nUse the checklist above to justify MCP adoption to your team.\nMonitor ROI: Track reduced dev hours and increased AI capabilities post-MCP."
   },
@@ -179,6 +179,6 @@
     "href": "index.html",
     "title": "👋 Hey there!",
     "section": "",
-    "text": "Date\n\n\nTitle\n\n\n\n\n\n\nMay 18, 2025\n\n\nMCPs Explained: The Bridge Between AI and the Real World\n\n\n\n\nMay 2, 2025\n\n\nHow LangGraph Uses Redis for Fault-Tolerant Task Execution\n\n\n\n\nApr 25, 2025\n\n\nHow to Build and Deploy an AI Agent using LangGraph from Scratch\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\n\n\n\n\nMay 18, 2025\n\n\nMCP Explained: The Bridge Between AI and the Real World\n\n\n\n\nMay 2, 2025\n\n\nHow LangGraph Uses Redis for Fault-Tolerant Task Execution\n\n\n\n\nApr 25, 2025\n\n\nHow to Build and Deploy an AI Agent using LangGraph from Scratch\n\n\n\n\n\nNo matching items"
   }
 ]

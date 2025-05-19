@@ -1,5 +1,5 @@
 ---
-title: "MCPs Explained: The Bridge Between AI and the Real World"
+title: "MCP Explained: The Bridge Between AI and the Real World"
 author: "Prashant Patel"
 date: 2025-05-18
 format:
