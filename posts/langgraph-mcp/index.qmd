@@ -10,6 +10,7 @@ format:
         icon: github
         href: https://github.com/neuralware/mcp-client-server-demo/
         target: "_blank"
+bibliography: references.bib        
 categories: [MCP, LangGraph]
 ---
 
@@ -40,7 +41,7 @@ This means developers have to manually customise each connection - a tedious a
 
 ## MCP: The Universal Plug & Play System for AI Tools
 
-![MCP Conceptual Architecture](./img/mcp_overview.png){#fig-mcp-arch}
+![MCP Conceptual Architecture [@sakal2024]](./img/mcp_overview.png){#fig-mcp-arch}
 
 Today's AI assistants struggle because every tool connection requires custom wiring. MCP changes this by becoming the USB-like standard for AI - where any compatible service can plug in and work immediately, just like devices with your MacBook using a USB-C hub a.k.a docking station (as illustrated in the conceptual arcitecture).
 
