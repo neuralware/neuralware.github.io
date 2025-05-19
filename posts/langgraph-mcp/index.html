@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Prashant Patel">
-<meta name="dcterms.date" content="2025-05-02">
+<meta name="dcterms.date" content="2025-05-18">
 
-<title>How LangGraph Uses Redis for Fault-Tolerant Task Execution – neuralware</title>
+<title>MCPs Explained: The Bridge Between AI and the Real World – neuralware</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -168,11 +168,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">How LangGraph Uses Redis for Fault-Tolerant Task Execution</h1>
+      <h1 class="title">MCPs Explained: The Bridge Between AI and the Real World</h1>
                                 <div class="quarto-categories">
-                <div class="quarto-category">Architecture</div>
+                <div class="quarto-category">MCP</div>
                 <div class="quarto-category">LangGraph</div>
-                <div class="quarto-category">Redis</div>
               </div>
                   </div>
   </div>
@@ -190,7 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 2, 2025</p>
+        <p class="date">May 18, 2025</p>
       </div>
     </div>
     
@@ -206,22 +205,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of Contents</h2>
    
   <ul>
-  <li><a href="#redis-in-langgraph" id="toc-redis-in-langgraph" class="nav-link active" data-scroll-target="#redis-in-langgraph">Redis in LangGraph</a>
+  <li><a href="#the-limitation-ai-without-tools-is-like-a-brain-without-hands" id="toc-the-limitation-ai-without-tools-is-like-a-brain-without-hands" class="nav-link active" data-scroll-target="#the-limitation-ai-without-tools-is-like-a-brain-without-hands">The Limitation: AI Without Tools Is Like a Brain Without Hands</a></li>
+  <li><a href="#the-first-solution-connecting-ai-to-tools" id="toc-the-first-solution-connecting-ai-to-tools" class="nav-link" data-scroll-target="#the-first-solution-connecting-ai-to-tools">The First Solution: Connecting AI to Tools</a></li>
+  <li><a href="#mcp-the-universal-plug-play-system-for-ai-tools" id="toc-mcp-the-universal-plug-play-system-for-ai-tools" class="nav-link" data-scroll-target="#mcp-the-universal-plug-play-system-for-ai-tools">MCP: The Universal Plug &amp; Play System for AI Tools</a>
   <ul class="collapse">
-  <li><a href="#duality" id="toc-duality" class="nav-link" data-scroll-target="#duality">Duality</a></li>
+  <li><a href="#how-mcp-actually-works" id="toc-how-mcp-actually-works" class="nav-link" data-scroll-target="#how-mcp-actually-works">How MCP Actually Works</a></li>
+  <li><a href="#why-this-isnt-just-another-api" id="toc-why-this-isnt-just-another-api" class="nav-link" data-scroll-target="#why-this-isnt-just-another-api">Why This Isn’t Just “Another API”</a></li>
   </ul></li>
-  <li><a href="#under-the-hood" id="toc-under-the-hood" class="nav-link" data-scroll-target="#under-the-hood">Under the hood</a></li>
-  <li><a href="#crash-resilience" id="toc-crash-resilience" class="nav-link" data-scroll-target="#crash-resilience">Crash Resilience</a>
+  <li><a href="#why-this-matters-for-ais-future" id="toc-why-this-matters-for-ais-future" class="nav-link" data-scroll-target="#why-this-matters-for-ais-future">Why This Matters for AI’s Future</a></li>
+  <li><a href="#mcp-in-practice-building-an-ai-agent-with-model-control-protocol" id="toc-mcp-in-practice-building-an-ai-agent-with-model-control-protocol" class="nav-link" data-scroll-target="#mcp-in-practice-building-an-ai-agent-with-model-control-protocol">MCP in Practice: Building an AI Agent with Model Control Protocol</a>
   <ul class="collapse">
-  <li><a href="#crash-safe-task-claiming" id="toc-crash-safe-task-claiming" class="nav-link" data-scroll-target="#crash-safe-task-claiming">Crash-Safe Task Claiming</a></li>
-  <li><a href="#the-sentinel-pattern" id="toc-the-sentinel-pattern" class="nav-link" data-scroll-target="#the-sentinel-pattern">The Sentinel Pattern</a></li>
-  <li><a href="#postgresql-as-a-fallback" id="toc-postgresql-as-a-fallback" class="nav-link" data-scroll-target="#postgresql-as-a-fallback">PostgreSQL as a Fallback</a></li>
-  <li><a href="#why-this-beats-polling" id="toc-why-this-beats-polling" class="nav-link" data-scroll-target="#why-this-beats-polling">Why This Beats Polling</a></li>
+  <li><a href="#anatomy-of-an-mcp-system" id="toc-anatomy-of-an-mcp-system" class="nav-link" data-scroll-target="#anatomy-of-an-mcp-system">Anatomy of an MCP System</a></li>
   </ul></li>
-  <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together">Putting it All Together</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  <li><a href="#from-math-to-real-world-applications" id="toc-from-math-to-real-world-applications" class="nav-link" data-scroll-target="#from-math-to-real-world-applications">From Math to Real-World Applications</a></li>
+  <li><a href="#do-i-need-mcp-server-for-my-project" id="toc-do-i-need-mcp-server-for-my-project" class="nav-link" data-scroll-target="#do-i-need-mcp-server-for-my-project">Do I need MCP Server for my Project?</a></li>
   </ul>
-</nav>
+<div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/neuralware/mcp-client-server-demo/" target="_blank"><i class="bi bi-github"></i>MCP Client Server</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -230,163 +229,263 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<p>In <a href="https://neuralware.github.io/posts/langgraph-deployment/">How to Build and Deploy an AI Agent using LangGraph from Scratch</a>, we deployed an AI agent to a standalone container running the LangGraph server. This setup communicates with both PostgreSQL and Redis. In that architecture, PostgreSQL serves as a checkpointer - responsible for persisting agent state across interactions, allowing the agent to “remember” previous conversations.</p>
-<p>However, the role of Redis may have felt less clear. It’s briefly described as a task orchestrator and a channel for streaming output, but beyond that, LangGraph’s documentation doesn’t dive deep into its purpose or inner workings.</p>
-<p>One of the advantages of using open-source software is transparency - we can inspect the implementation to truly understand what’s going on under the hood. So that’s exactly what I did. <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<p>In this article, we’ll explore how Redis fits into the LangGraph architecture and how it plays a crucial role in enabling fault-tolerant, stateful conversational AI applications, especially when working alongside PostgreSQL and the LangGraph server.</p>
-<section id="redis-in-langgraph" class="level2">
-<h2 class="anchored" data-anchor-id="redis-in-langgraph">Redis in LangGraph</h2>
-<p>At its core, Redis serves as LangGraph’s high-performance messaging backbone, enabling two critical capabilities:</p>
-<ul>
-<li>Task queuing with retry counts for fault-tolerant agent workflows</li>
-<li>Real-time streaming of intermediate agent outputs</li>
-</ul>
-<p>Unlike traditional databases, Redis specializes in low-latency operations through its in-memory data structures. For LangGraph, this means:</p>
-<ul>
-<li><strong>Redis List</strong> act as FIFO queues for agent task scheduling</li>
-<li><strong>Redis String and Pub/Sub</strong> for bi-directional signaling (output streaming / cancellations)</li>
-<li><strong>Blocking Queues</strong> create reliable queues that survive worker crashes</li>
-</ul>
-<p>These concepts will be clear once we start looking into the internal working.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>By using Redis as a message broker, LangGraph decouples the components that produce runs (agents/servers) from the workers that execute them.</p>
-</div>
-</div>
-<section id="duality" class="level3">
-<h3 class="anchored" data-anchor-id="duality">Duality</h3>
-<p>A key architectural advantage is Redis’ ability to function as both a queue and a broadcast system simultaneously. When your LangGraph agent processes a request:</p>
-<ul>
-<li>PostgreSQL persists the final state (the “what”)</li>
-<li>Redis orchestrates the execution path (the “how”)</li>
-</ul>
-<p>This explains why LangGraph requires both databases - while PostgreSQL provides durability, Redis delivers the coordination layer that makes stateful, long-running agent workflows possible.</p>
+<p>If you’ve been following AI developments lately, you’ve likely seen the term&nbsp;MCP&nbsp;(Model Control Protocol) gaining traction. But what exactly is it, and why does it matter for the future of AI?</p>
+<p>In simple terms, MCP is a&nbsp;standardised way for AI models to interact with external tools and services, unlocking capabilities beyond just generating text. To understand why this is a big deal, let’s break down the problem it solves.</p>
+<section id="the-limitation-ai-without-tools-is-like-a-brain-without-hands" class="level2">
+<h2 class="anchored" data-anchor-id="the-limitation-ai-without-tools-is-like-a-brain-without-hands">The Limitation: AI Without Tools Is Like a Brain Without Hands</h2>
+<p>At their core, large language models (LLMs) are incredibly skilled at&nbsp;predicting and generating text. Ask one to summarise an article or draft a story, and it performs impressively. But ask it to&nbsp;do&nbsp;something - like checking the weather, updating a calendar, or retrieving live data - and it falls short.</p>
+<p>Why? Because&nbsp;LLMs alone can’t interact with the outside world. They’re like a brilliant mind trapped in a room with no doors - knowledgeable, but unable to act.</p>
 </section>
+<section id="the-first-solution-connecting-ai-to-tools" class="level2">
+<h2 class="anchored" data-anchor-id="the-first-solution-connecting-ai-to-tools">The First Solution: Connecting AI to Tools</h2>
+<p>To make AI truly useful, developers began linking LLMs to&nbsp;external tools&nbsp;(APIs, databases, web services, etc.). For example:</p>
+<ul>
+<li>A chatbot could fetch real-time stock prices by connecting to a financial API.</li>
+<li>An AI assistant could schedule meetings by integrating with a calendar service.</li>
+</ul>
+<p>But there’s a catch:&nbsp;Every tool operates differently.</p>
+<ul>
+<li>A weather API expects inputs in a specific format.</li>
+<li>A database might require unique authentication steps.</li>
+<li>A task manager could have its own rules for creating entries.</li>
+</ul>
+<p>This means developers have to&nbsp;manually customise&nbsp;each connection - a tedious and fragile process. If one service updates its API, the entire integration can break.</p>
 </section>
-<section id="under-the-hood" class="level2">
-<h2 class="anchored" data-anchor-id="under-the-hood">Under the hood</h2>
-<p>The following sequence diagram captures the key interactions and the role of Redis as a messaging and signaling layer, with Postgres as the durable run data store.</p>
-<div id="fig-langgraph-redis" class="quarto-float quarto-figure quarto-figure-center anchored">
+<section id="mcp-the-universal-plug-play-system-for-ai-tools" class="level2">
+<h2 class="anchored" data-anchor-id="mcp-the-universal-plug-play-system-for-ai-tools">MCP: The Universal Plug &amp; Play System for AI Tools</h2>
+<div id="fig-mcp-arch" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-langgraph-redis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="./img/langgraph_redis.svg" class="img-fluid figure-img">
+<div aria-describedby="fig-mcp-arch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="./img/mcp_overview.png" class="img-fluid figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-langgraph-redis-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: How LangGraph uses Redis
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mcp-arch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: MCP Conceptual Architecture
 </figcaption>
 </figure>
 </div>
-<section id="explanation" class="level4">
-<h4 class="anchored" data-anchor-id="explanation">Explanation</h4>
-<p>The Agent creates a new run by inserting it into Postgres and signals workers<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> via a sentinel<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> pushed to a Redis list.</p>
+<p>Today’s AI assistants struggle because every tool connection requires custom wiring. MCP changes this by becoming the&nbsp;USB-like standard&nbsp;for AI - where any compatible service can plug in and work immediately, just like devices with your MacBook using a USB-C hub a.k.a docking station (as illustrated in the conceptual arcitecture).</p>
+<section id="how-mcp-actually-works" class="level3">
+<h3 class="anchored" data-anchor-id="how-mcp-actually-works">How MCP Actually Works</h3>
+<p>The definition of MCP as per the offical <a href="https://modelcontextprotocol.io/introduction">documentation</a> is as follows -</p>
+<blockquote class="blockquote">
+<p>MCP is an open protocol that standardizes how applications provide context to LLMs. Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect your devices to various peripherals and accessories, MCP provides a standardized way to connect AI models to different data sources and tools.</p>
+</blockquote>
+<section id="the-mcp-server---usb-devices" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-server---usb-devices">The MCP Server - “USB Devices”</h4>
+<ul>
+<li>Each tool or service - Slack, Gmail, Calendar, local files - runs an MCP server</li>
+<li>These are like USB devices: they translate their native APIs into the standard MCP format</li>
+<li>Example: When the Calendar server gets a request like “list events”, it maps that to Google Calendar’s internal API and returns it in a universal format</li>
+</ul>
+</section>
+<section id="the-mcp-client---agentic-ai-application" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-client---agentic-ai-application">The MCP Client - “Agentic AI Application”</h4>
+<ul>
+<li>Lives inside AI agents like Claude, Cursor, etc.</li>
+<li>It’s like your MacBook: it doesn’t care what’s plugged in - as long as it follows the USB standard (the MCP protocol), it can use it immediately</li>
+<li>Example: When you say “Send an email”, the MCP client routes the request through the hub to the Gmail server, without needing to know Gmail’s API details</li>
+</ul>
+</section>
+<section id="the-mcp-protocol---usb-hub" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-protocol---usb-hub">The MCP Protocol - “USB Hub”</h4>
+<p>The protocol is the hub connecting the client (AI) and servers (tools). It defines the standard interface they all speak:</p>
+<ul>
+<li>Uniform request formats (get_email, list_files, etc.)</li>
+<li>Consistent response schemas (same field names, types)</li>
+<li>Predictable error handling</li>
+</ul>
+<p>Once a tool implements this protocol, any AI can access it instantly - just like plugging into a USB hub.</p>
+</section>
+</section>
+<section id="why-this-isnt-just-another-api" class="level3">
+<h3 class="anchored" data-anchor-id="why-this-isnt-just-another-api">Why This Isn’t Just “Another API”</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Traditional Approach</th>
+<th>MCP Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Each tool needs custom code</td>
+<td>Tools work immediately when installed</td>
+</tr>
+<tr class="even">
+<td>APIs break when updated</td>
+<td>Built-in version control prevents breaks</td>
+</tr>
+<tr class="odd">
+<td>AI must learn each tool’s quirks</td>
+<td>Standardized interactions eliminate guesswork</td>
+</tr>
+<tr class="even">
+<td>Hard to combine tools</td>
+<td>Tools can “automagically” work together</td>
+</tr>
+</tbody>
+</table>
+<section id="real-world-impact" class="level4">
+<h4 class="anchored" data-anchor-id="real-world-impact">Real-World Impact</h4>
+<p>An MCP-enabled AI could:</p>
 <ol type="1">
-<li>The Worker blocks on Redis list (BLPOP<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>) waiting for a wake-up signal.</li>
-<li>Upon receiving the signal, the worker fetches the actual run data from Postgres.</li>
-<li>The worker executes the run asynchronously.</li>
-<li>During execution, the worker streams output events via Redis PubSub to the agent.</li>
-<li>If a cancellation is requested, the agent sets a cancellation flag in Redis, which is communicated to the worker via PubSub channel.</li>
-<li>Upon completion, the worker updates the run status in Postgres, clears ephemeral metadata in Redis, and notifies the agent (e.g., via webhook).</li>
+<li>Notice your calendar shows an outdoor meeting<br>
+</li>
+<li>Check the weather MCP server for rain forecasts</li>
+<li>Cross-reference traffic MCP server for delays</li>
+<li>Propose rescheduling -&nbsp;all without pre-programmed rules</li>
 </ol>
+<p>This is why developers are excited: MCP isn’t just improving tools - it’s creating an ecosystem where AI can truly&nbsp;<em>understand</em>&nbsp;and&nbsp;<em>use</em>&nbsp;services as flexibly as humans do.</p>
 </section>
 </section>
-<section id="crash-resilience" class="level2">
-<h2 class="anchored" data-anchor-id="crash-resilience">Crash Resilience</h2>
-<p>At the heart of LangGraph’s fault-tolerance lies its use of Redis lists as a <em>transactional queue</em>. This is achieved via <code>BLPOP</code> and Atomic Task Handoffs.</p>
-<section id="crash-safe-task-claiming" class="level3">
-<h3 class="anchored" data-anchor-id="crash-safe-task-claiming">Crash-Safe Task Claiming</h3>
-<p>When a worker executes a <code>BLPOP tasks: queue 0</code> (as shown in the sequence diagram), the operation is <strong>atomic</strong><a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>:</p>
-<ul>
-<li>Redis only removes the task from the list <strong>after</strong> it has been delivered to the worker.</li>
-<li>If the worker crashes <strong>before</strong> processing the task, the task remains in the queue.</li>
-</ul>
-<p>This ensures that no task is lost due to unexpected crashes or restarts. Additionally, LangGraph sets a sensible default for concurrency control:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">N_JOBS_PER_WORKER</span> = env<span class="er">(</span><span class="st">"N_JOBS_PER_WORKER"</span><span class="ex">,</span> cast=int, default=10<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Each worker will process up to 10 tasks in parallel unless configured otherwise, helping scale horizontally while keeping workloads isolated.</p>
 </section>
-<section id="the-sentinel-pattern" class="level3">
-<h3 class="anchored" data-anchor-id="the-sentinel-pattern">The Sentinel Pattern</h3>
-<p>In the diagram, you may have noticed agents pushing a sentinel - a wake-up signal - into Redis.</p>
-<div id="fig-sentinel-pattern" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-sentinel-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="./img/sentinel-pattern.svg" class="img-fluid figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sentinel-pattern-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: The Sentinel Pattern
-</figcaption>
-</figure>
-</div>
-<p>Here’s how it works:</p>
-<ul>
-<li>Workers use <code>BLPOP</code> with a timeout of <code>0</code>, meaning they block indefinitely until a signal arrives.</li>
-<li>This design eliminates the need for polling and ensures no messages are missed - even if a worker restarts.</li>
-</ul>
-<p>LangGraph also reports internal metrics periodically to help with observability:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">STATS_INTERVAL_SECS</span> = env<span class="er">(</span><span class="st">"STATS_INTERVAL_SECS"</span><span class="ex">,</span> cast=int, default=60<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This allows systems to track worker health and performance at one-minute intervals by default.</p>
-</section>
-<section id="postgresql-as-a-fallback" class="level3">
-<h3 class="anchored" data-anchor-id="postgresql-as-a-fallback">PostgreSQL as a Fallback</h3>
-<p>If Redis is temporarily unavailable or restarts, LangGraph falls back to PostgreSQL via <code>Runs.next</code>, as shown in the query step of the diagram.</p>
-<p>This creates a two-layered recovery mechanism:</p>
-<ul>
-<li><strong>Redis-first</strong> (hot path): Fast, in-memory task delivery.</li>
-<li><strong>PostgreSQL</strong> (cold path): Durable, persistent task storage.</li>
-</ul>
-<p>This layered approach ensures resilience without sacrificing performance. LangGraph also sets an upper bound on how long a background task can run:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">BG_JOB_TIMEOUT_SECS</span> = env<span class="er">(</span><span class="st">"BG_JOB_TIMEOUT_SECS"</span><span class="ex">,</span> cast=float, default=3600<span class="kw">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This ensures that long-running or stuck jobs don’t hang forever - by default, any job exceeding 1 hour is forcefully timed out.</p>
-</section>
-<section id="why-this-beats-polling" class="level3">
-<h3 class="anchored" data-anchor-id="why-this-beats-polling">Why This Beats Polling</h3>
-<p>Polling-based systems often suffer from subtle timing issues. For instance, if a worker uses RPOP<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a> to dequeue a task and then crashes before it begins processing, that task is effectively lost. Similarly, network hiccups or buffering delays can cause tasks to be silently dropped or missed altogether.</p>
-<p>LangGraph avoids these pitfalls by using BLPOP, which blocks server-side until a task is available. This means tasks remain in Redis until they are actually handed off to a live worker. There are no polling loops, no race conditions, and no dependency on fragile network timing - just clean, atomic task delivery.</p>
-</section>
-</section>
-<section id="putting-it-all-together" class="level2">
-<h2 class="anchored" data-anchor-id="putting-it-all-together">Putting it All Together</h2>
-<p>In summary, LangGraph cleverly integrates Redis not just as a simple cache, but as a core component for resilient task orchestration and real-time communication. By leveraging atomic operations like <code>BLPOP</code> for crash-safe task claiming and Pub/Sub for efficient signaling and output streaming, it builds a robust system that complements PostgreSQL’s role in state persistence. This dual-database approach allows LangGraph to deliver performant, fault-tolerant execution for complex, stateful AI agent workflows, ensuring tasks are reliably processed even amidst potential failures.</p>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
+<section id="why-this-matters-for-ais-future" class="level2">
+<h2 class="anchored" data-anchor-id="why-this-matters-for-ais-future">Why This Matters for AI’s Future</h2>
+<p>Today’s AI assistants are limited because each tool integration requires manual, brittle connections - like a smart home where every device speaks a different language and needs custom programming (no longer the case with introduction of standard Matter protocol, MCP equivalent for smart homes). MCP changes this by introducing a universal standard, enabling three key breakthroughs:</p>
 <ol type="1">
-<li><a href="https://redis.io/glossary/redis-queue/">Redis Queue</a></li>
-<li><a href="https://langchain-ai.github.io/langgraph/concepts/platform_architecture/#how-we-use-redis">LangGraph: How we use Redis</a></li>
+<li><strong>Dynamic Tool Discovery</strong> - Instead of hard-coding every API, AI systems can automatically discover and use new MCP-compatible tools, much like plug-and-play USB devices.<br>
+</li>
+<li><strong>Self-Healing Connections</strong> - Unlike current systems that break when APIs update, MCP builds in versioning and fallback methods, keeping workflows intact.<br>
+</li>
+<li><strong>Multi-Tool Reasoning</strong> - Today, chaining actions across services (e.g., checking traffic, rescheduling meetings, and notifying teams) requires months of custom development. With MCP, AI can dynamically combine any compliant tools on the fly, enabling complex, cross-platform automation without pre-built pipelines.</li>
+</ol>
+<p>This shift turns AI from a tool that merely responds into a system that orchestrates - seamlessly blending services the way humans intuitively combine tools to solve problems. The result? Assistants that don’t just follow instructions but proactively adapt to real-world complexity.</p>
+</section>
+<section id="mcp-in-practice-building-an-ai-agent-with-model-control-protocol" class="level2">
+<h2 class="anchored" data-anchor-id="mcp-in-practice-building-an-ai-agent-with-model-control-protocol">MCP in Practice: Building an AI Agent with Model Control Protocol</h2>
+<p>Now that we understand MCP’s conceptual framework, let’s examine how it works in practice through a concrete implementation. We’ll explore a simple math-solving AI agent that connects to MCP-enabled tools.</p>
+<section id="anatomy-of-an-mcp-system" class="level3">
+<h3 class="anchored" data-anchor-id="anatomy-of-an-mcp-system">Anatomy of an MCP System</h3>
+<p>Our example consists of two core components:</p>
+<ol type="1">
+<li>MCP Server: The “tool provider” that exposes mathematical operations</li>
+<li>MCP Client: The AI agent that leverages these tools dynamically</li>
+</ol>
+<section id="the-mcp-server-math-as-a-service" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-server-math-as-a-service">The MCP Server: Math as a Service 🪿</h4>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mcp.server.fastmcp <span class="im">import</span> FastMCP</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mcp_server.tools <span class="im">import</span> math_tools</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mcp <span class="op">=</span> FastMCP(<span class="st">"MCP Server"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Register tools with MCP instance using decorators dynamically</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>mcp.tool()(math_tools.add)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>mcp.tool()(math_tools.multiply)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span>:</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        mcp.run(transport<span class="op">=</span><span class="st">"streamable-http"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Started MCP server"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">KeyboardInterrupt</span>:</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="st">"Exiting..."</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">except</span> <span class="pp">Exception</span> <span class="im">as</span> e:</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"Failed to start MCP Server - </span><span class="sc">{</span>e<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>The code uses official <code>mcp</code> python-sdk to implement a MCP Server. The repo comes with more examples in README.</p>
+</blockquote>
+<p>Key features worth noting:</p>
+<ol type="1">
+<li>Declarative Tool Registration: Tools are added using simple decorators (<code>@mcp.tool()</code>)</li>
+<li>Transport Agnostic: The server can use different communication protocols (here using HTTP streaming)</li>
+<li>Modular Design: Tools are organized in separate modules (tools/math_tools.py), enabling clean separation of concerns and clean extensibility.</li>
+</ol>
+<p>The server exposes two basic operations - addition and multiplication - but could easily scale to include hundreds of tools with the same lightweight pattern.</p>
+</section>
+<section id="the-mcp-client-ai-that-just-knows-how-to-use-tools" class="level4">
+<h4 class="anchored" data-anchor-id="the-mcp-client-ai-that-just-knows-how-to-use-tools">The MCP Client: AI That “Just Knows” How to Use Tools 🧠</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_mcp_adapters.client <span class="im">import</span> MultiServerMCPClient</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langgraph.prebuilt <span class="im">import</span> create_react_agent</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langchain_core.messages <span class="im">import</span> HumanMessage</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> main():</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    client <span class="op">=</span> MultiServerMCPClient({</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">"math"</span>: {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>            <span class="st">"url"</span>: <span class="st">"http://localhost:8000/mcp"</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">"transport"</span>: <span class="st">"streamable_http"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    tools <span class="op">=</span> <span class="cf">await</span> client.get_tools()</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    agent <span class="op">=</span> create_react_agent(<span class="st">"openai:gpt-4.1"</span>, tools)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> <span class="cf">await</span> agent.ainvoke({</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"messages"</span>: [HumanMessage(content<span class="op">=</span><span class="st">"what's (3 + 5) * 12?"</span>)]</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    })</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    response[<span class="st">"messages"</span>][<span class="op">-</span><span class="dv">1</span>].pretty_print()</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    asyncio.run(main())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<blockquote class="blockquote">
+<p>We are using LangGraph to demonstrate client, but it would work with any Agent framework.</p>
+</blockquote>
+<p>Key features worth noting:</p>
+<ol type="1">
+<li>Automatic Tool Discovery: The client dynamically fetches available tools from the server</li>
+<li>Zero Tool-Specific Code: The AI understands how to use add and multiply without explicit programming</li>
+<li>Natural Language Interface: The operation (3 + 5) * 12 is solved through conversational interaction</li>
+</ol>
+<p>When executed, this agent will:</p>
+<ol type="1">
+<li>Parse the user’s math question</li>
+<li>Determine it needs to first add 3 and 5</li>
+<li>Then multiply the result by 12</li>
+<li>Return the correct answer (96) - all by dynamically composing the available MCP tools</li>
+</ol>
+</section>
+</section>
+</section>
+<section id="from-math-to-real-world-applications" class="level2">
+<h2 class="anchored" data-anchor-id="from-math-to-real-world-applications">From Math to Real-World Applications</h2>
+<p>While our example uses simple math operations, the same pattern scales to enterprise use cases:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Hypothetical enterprise MCP server</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mcp.tool()(salesforce.get_opportunities)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>mcp.tool()(jira.create_ticket)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>mcp.tool()(slack.send_message)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>mcp.tool()(bigquery.run_query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>An AI agent with access to these tools could:</p>
+<ul>
+<li>Query Salesforce for new deals</li>
+<li>Create Jira tickets for follow-ups</li>
+<li>Notify teams via Slack</li>
+<li>Log actions in BigQuery</li>
+</ul>
+<p>All through natural language requests, with no pre-built workflows.</p>
+</section>
+<section id="do-i-need-mcp-server-for-my-project" class="level2">
+<h2 class="anchored" data-anchor-id="do-i-need-mcp-server-for-my-project">Do I need MCP Server for my Project?</h2>
+<p>⭕ Are you building an Agentic AI Application with tools?<br>
+⭕ Is any tool calling an internal/external API?<br>
+⭕ Do you manage multiple, ever-changing APIs?<br>
+⭕ Should your AI dynamically combine tools?<br>
+⭕ Will you add more tools over time?</p>
+<p>If you answered <strong>YES</strong> to 2 or more questions, MCP will save you time, reduce fragility, and future-proof your AI stack.</p>
+<p><strong>Next Steps</strong></p>
+<ol type="1">
+<li>Start small: Pick one high-impact tool and MCP-enable it.</li>
+<li>Use the checklist above to justify MCP adoption to your team.</li>
+<li>Monitor ROI: Track reduced dev hours and increased AI capabilities post-MCP.</li>
 </ol>
 
 
 </section>
 
-
-<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>LangGraph doesn’t publish source code for <code>langgraph-storage</code>, but only wheels. So you have to install the package to view the code. The implementation is present in <code>langgraph_storage.queue</code><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>Workers in this context are async tasks in Python, they have nothing to do with Redis.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>A sentinel is a special placeholder or signal value used within a Redis list to notify workers - it has no actual run info. Not to be confused with Redis Sentinel (the high-availability system).<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>In a basic queue, if a consumer tries to dequeue a task when the queue is empty, it gets a null response and may need to poll the queue repeatedly. To avoid this, Redis provides a way to implement blocking queues. In a blocking queue, if a consumer tries to dequeue a task when the queue is empty, it is put to sleep by Redis until a task is available.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>Atomic tasks means, they either complete fully or not at all<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>RPOP: Redis command to dequeue an element (FIFO)<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{patel2025,
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{patel2025,
   author = {Patel, Prashant},
-  title = {How {LangGraph} {Uses} {Redis} for {Fault-Tolerant} {Task}
-    {Execution}},
-  date = {2025-05-02},
-  url = {https://neuralware.github.io/posts/langgraph-redis/},
+  title = {MCPs {Explained:} {The} {Bridge} {Between} {AI} and the
+    {Real} {World}},
+  date = {2025-05-18},
+  url = {https://neuralware.github.io/posts/langgraph-mcp/},
   langid = {en}
 }
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-patel2025" class="csl-entry quarto-appendix-citeas" role="listitem">
-Patel, Prashant. 2025. <span>“How LangGraph Uses Redis for
-Fault-Tolerant Task Execution.”</span> May 2, 2025. <a href="https://neuralware.github.io/posts/langgraph-redis/">https://neuralware.github.io/posts/langgraph-redis/</a>.
+Patel, Prashant. 2025. <span>“MCPs Explained: The Bridge Between AI and
+the Real World.”</span> May 18, 2025. <a href="https://neuralware.github.io/posts/langgraph-mcp/">https://neuralware.github.io/posts/langgraph-mcp/</a>.
 </div></div></section></div></main> <!-- /main -->
 <div>
     <iframe src="https://embeds.beehiiv.com/2993af36-b810-4ea0-a30f-e5ef6c74d16f" data-test-id="beehiiv-embed" width="100%" height="200" frameborder="0" scrolling="no" style="margin: 0; background-color: transparent;"></iframe>

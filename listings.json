@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/langgraph-mcp/index.html",
       "/posts/langgraph-redis/index.html",
       "/posts/langgraph-deployment/index.html"
     ]
