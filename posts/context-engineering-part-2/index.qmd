@@ -1,0 +1,366 @@
+---
+title: "Context Engineering: Building Smarter AI Agents - Part 2/3"
+author: "Prashant Patel"
+date: 2025-06-20
+code-annotations: hover
+format:
+  html:
+    code-fold: false
+categories: [AI Agents, LangGraph, Context Engineering]
+draft: false
+---
+
+## LangGraph: Your Toolkit for Context Engineering
+
+Having established the critical role of context engineering in our previous [post](https://neuralware.github.io/posts/context-engineering-part-1/), let's delve into how LangGraph provides the architectural framework to implement these principles effectively.
+
+### Why LangGraph Excels at Context Engineering
+
+LangGraph's design inherently makes it an exceptional tool for context engineering:
+
+*   **Explicit Control over Information Flow:** The graph-based structure forces you to explicitly define how information (context) flows between different components of your application. You decide precisely what information enters each node and what information is passed on to the next. This eliminates implicit dependencies and makes context management transparent.
+
+*   **Facilitates Complex, Multi-Step Reasoning:** Many real-world tasks require more than a single LLM call. They involve multiple steps of reasoning, tool use, and information synthesis. LangGraph allows you to orchestrate these complex sequences, ensuring that the context is meticulously managed at each stage. For example, an agent might first retrieve documents, then summarise them, then use the summary to answer a question, and finally, if needed, perform a follow-up search – all while maintaining a consistent and evolving context.
+
+*   **Supports Multi-Agent Workflows:** LangGraph is particularly well-suited for building multi-agent systems, where different specialised agents collaborate to achieve a common goal. In such systems, agents often need to share and update a common context. LangGraph's shared state mechanism and routing capabilities make it straightforward for agents to pass information back and forth, ensuring that each agent has the necessary context to perform its specific role effectively.
+
+In the next section, we will explore practical examples that demonstrate how these LangGraph concepts translate into robust context engineering solutions for common LLM application patterns.
+
+
+## Practical Examples of Context Engineering with LangGraph
+
+Now, let's dive into practical examples to illustrate how LangGraph facilitates robust context engineering. For these examples, we will use `langchain` and `langgraph`. Make sure you have these libraries installed (`pip install langchain langchain-openai langgraph`) and have your OpenAI API key set as an environment variable (`OPENAI_API_KEY`).
+
+### Stateful AI Assitant
+
+**Problem:** A common challenge in building conversational AI is maintaining context across multiple turns. A basic LLM call is stateless, meaning it forgets previous interactions. Furthermore, an AI Assistant often needs to access external information (e.g., current time, weather) to provide relevant responses.
+
+**Context Engineering Solution with LangGraph:** We can design a LangGraph application that maintains conversation history in its state and dynamically decides whether to use a tool based on the user's query. The state will hold the chat history, which is crucial context for the LLM.
+
+**Conceptual Flow:**
+
+1. User Input: The user sends a message.
+2. LLM Call (with History): The LLM receives the current message along with the accumulated conversation history.
+3. Conditional Edge (Tool Decision): The LLM decides if an external tool (e.g., a search tool) is needed to answer the query.
+4. Tool Call (if needed): If a tool is required, it's invoked, and its output is added to the context.
+5. LLM Call (with Tool Output): The LLM receives the original query, history, and now the tool's output to formulate a final response.
+6. Response: The LLM generates the final answer.
+
+Let's implement a simplified version of this, focusing on maintaining history and a basic tool call.
+
+```python
+import operator
+from typing import Annotated, Sequence, TypedDict
+
+from langchain_core.messages import BaseMessage, HumanMessage
+from langchain_core.tools import tool
+from langchain_openai import ChatOpenAI
+from langgraph.graph import StateGraph, END
+from langgraph.prebuilt import ToolNode
+
+
+# 1. Define the Graph State
+class AgentState(TypedDict):  # <1>
+    # The list of messages passed between the agents
+    messages: Annotated[Sequence[BaseMessage], operator.add] # <1>
+
+
+# Define a simple tool
+@tool
+def get_current_time(query: str) -> str:  # <2>
+    """Returns the current time. Use this tool when asked about the current time."""
+    import datetime
+
+    return str(datetime.datetime.now().strftime("%H:%M:%S")) # <2>
+
+
+# Create tools list
+tools = [get_current_time]
+
+
+# 2. Define the Nodes
+def call_llm(state: AgentState):  # <3>
+    """Node for LLM interaction with tool calling capabilities"""
+    messages = state["messages"]
+    model = ChatOpenAI(model="gpt-4o", temperature=0).bind_tools(tools)
+    response = model.invoke(messages)
+    return {"messages": [response]} # <3>
+
+
+# Use LangGraph's built-in ToolNode for real tool execution
+tool_node = ToolNode(tools)  # <4>
+
+
+# 3. Define the Conditional Edge Logic
+def should_continue(state: AgentState):  # <5>
+    messages = state["messages"]
+    last_message = messages[-1]
+    # Check if the last message has tool calls
+    if last_message.tool_calls:
+        return "call_tool"
+    return "end" # <5>
+
+
+# 4. Build the Graph # <6>
+workflow = StateGraph(AgentState)
+
+workflow.add_node("llm", call_llm)
+workflow.add_node("tool", tool_node)
+
+workflow.set_entry_point("llm")
+
+# Add conditional edges based on tool calls
+workflow.add_conditional_edges(
+    "llm",
+    should_continue,
+    {
+        "call_tool": "tool",
+        "end": END,
+    },
+)
+
+# After tool execution, always return to LLM to process results
+workflow.add_edge("tool", "llm")
+
+app = workflow.compile() # <6>
+
+# 5. Run the AI Assistant
+print("\n--- AI Assistant Interaction ---")
+inputs = {"messages": [HumanMessage(content="Hello, how are you?")]}
+for s in app.stream(inputs):
+    print(s)
+
+print("\n--- AI Assistant Interaction (asking for time) ---")
+inputs = {"messages": [HumanMessage(content="What is the current time?")]}
+for s in app.stream(inputs):
+    print(s)
+```
+
+1. `AgentState` is a `TypedDict` that defines the structure of our graph's state. It primarily holds a `messages` list, which is crucial for maintaining conversation history. The `operator.add` annotation ensures that new messages are appended to the existing list, preserving the context.
+2. `get_current_time` tool is a simple Python function decorated with `@tool` that simulates an external capability. The LLM can be prompted to use this tool.
+3. `call_llm` node takes the current `messages` from the state, invokes the `ChatOpenAI` model, and returns the LLM's response, which is then added back to the `messages` in the state.
+4. `tool_node` is responsible for executing the tool.
+5. `should_continue` conditional edge determines the next step based on the LLM's last message. If the LLM indicates a tool call, it routes to the `tool_node`; otherwise, it routes to `END` (meaning the conversation turn is complete) or back to `llm` for further processing.
+6. To construct the graph we define the nodes and then use `add_conditional_edges` to create the dynamic flow. The `set_entry_point` defines where the graph execution begins.
+
+This example demonstrates how LangGraph uses its `State` to manage the evolving context (conversation history) and `Conditional Edges` to dynamically route the flow based on the LLM's decision, enabling tool use. The entire interaction, including the tool's output, becomes part of the context for subsequent LLM calls.
+
+### Document Q&A with RAG
+
+**Problem:** Large Language Models have vast general knowledge, but they lack specific, up-to-date, or proprietary information contained within private documents (e.g., internal company policies, specific research papers). Directly feeding large documents into the LLM's context window is often impractical due to token limits and can lead to the LLM getting lost in the noise.
+
+**Context Engineering Solution with LangGraph:** The solution is to implement a Retrieval Augmented Generation (RAG) pipeline. In a RAG system, we first retrieve relevant snippets of information from our documents based on the user's query. Then, we provide these snippets as context to the LLM, along with the original query, to generate a concise and accurate answer. LangGraph is ideal for orchestrating this multi-step process.
+
+**Conceptual Flow:**
+
+1. **User Query**: The user asks a question about the documents.
+2. **Retriever**: A retriever (e.g., a vector database) searches the document collection and finds the most relevant chunks of text.
+3. **LLM (Generation)**: The LLM receives the user's query and the retrieved document snippets as context and generates an answer based on this information.
+
+Let's build a simple RAG agent using LangGraph. We'll use a simple in-memory vector store for this example.
+
+```python
+from typing import List, TypedDict
+
+from langchain_community.vectorstores import FAISS
+from langchain_core.documents import Document
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langgraph.graph import StateGraph, END
+
+# 1. Define the Graph State
+class RagState(TypedDict): # <1>
+    query: str
+    documents: List[Document]
+    answer: str # <1>
+
+# 2. Set up the Retriever
+# Sample documents
+texts = [
+    "LangGraph is a library for building stateful, multi-actor applications with LLMs.",
+    "Context engineering is the art of providing the right information to an LLM.",
+    "LangGraph makes it easy to create complex agentic workflows."
+]
+documents = [Document(page_content=t) for t in texts]
+
+# Create a simple in-memory vector store
+embeddings = OpenAIEmbeddings()
+vectorstore = FAISS.from_documents(documents, embeddings) # <2>
+retriever = vectorstore.as_retriever()
+
+# 3. Define the Nodes
+def retrieve_documents(state: RagState): # <3>
+    query = state["query"]
+    retrieved_docs = retriever.invoke(query)
+    return {"documents": retrieved_docs} # <3>
+
+def generate_answer(state: RagState): # <4>
+    query = state["query"]
+    documents = state["documents"]
+    
+    # Create a prompt template
+    prompt_template = """Answer the user's question based only on the following 
+    context:\n\n{context}\n\nQuestion: {question}"""
+    prompt = ChatPromptTemplate.from_template(prompt_template)
+    
+    # Create a chain
+    llm = ChatOpenAI(model="gpt-4o", temperature=0)
+    
+    def format_docs(docs):
+        return "\n\n".join(doc.page_content for doc in docs)
+
+    rag_chain = (
+        {"context": retriever | format_docs, "question": RunnablePassthrough()}
+        | prompt
+        | llm
+    )
+    
+    answer = rag_chain.invoke(query)
+    return {"answer": answer.content} # <4>
+
+# 4. Build the Graph # <5>
+workflow = StateGraph(RagState)
+
+workflow.add_node("retriever", retrieve_documents)
+workflow.add_node("generator", generate_answer)
+
+workflow.set_entry_point("retriever")
+workflow.add_edge("retriever", "generator")
+workflow.add_edge("generator", END)
+
+app = workflow.compile() # <5>
+
+# 5. Run the RAG Agent
+print("\n--- RAG Agent Interaction ---")
+inputs = {"query": "What is LangGraph?"}
+result = app.invoke(inputs)
+print(f"Query: {result['query']}")
+print(f"Answer: {result['answer']}")
+```
+
+1. This state dictionary holds the `query`, the retrieved `documents`, and the final `answer`.
+2. For retriever, we create a simple in-memory vector store using `FAISS` from a few sample documents. In a real-world application, this would likely be a more robust, persistent vector database.
+3. `retrieve_documents` node takes the user's `query` from the state, uses the retriever to find relevant documents, and updates the `documents` field in the state.
+4. `generate_answer` node constructs a prompt that includes the retrieved `documents` as context. It then invokes the LLM to generate an answer based on this context and updates the `answer` field in the state.
+5. Graph Construction: This is a simpler, linear graph. We define the nodes and then create a straightforward flow from the `retriever` to the `generator` and finally to the `END`.
+
+This RAG example showcases how LangGraph can be used to orchestrate a multi-step data processing pipeline. The context (retrieved documents) is explicitly passed from one node to the next via the shared `State`, ensuring that the LLM has the necessary information to generate a grounded and accurate answer.
+
+### Multi-Agent Workflow
+
+**Problem:** Some tasks are too complex for a single LLM or a single agent to handle effectively. They might require different areas of expertise, or they might benefit from a divide-and-conquer approach. For example, generating a comprehensive research report might involve searching for information, analysing data, writing content, and editing the final draft.
+
+**Context Engineering Solution with LangGraph:** LangGraph is exceptionally well-suited for creating multi-agent workflows. We can define different agents as nodes in the graph and have them collaborate on a shared task. The shared `State` in LangGraph becomes the central scratchpad where agents can read the current status of the task, access the work of other agents, and contribute their own results.
+
+**Conceptual Flow:**
+
+1. **Orchestrator Agent:** An orchestrator or manager agent receives the initial task and decomposes it into sub-tasks.
+2. **Specialised Sub-Agents:** The orchestrator routes the sub-tasks to specialised agents (e.g., a research agent, a writing agent, an editing agent).
+3. **Shared State:** The sub-agents perform their tasks and update the shared state with their results (e.g., research findings, written paragraphs, edited text).
+4. **Synthesis:** The orchestrator monitors the progress in the shared state and, once all sub-tasks are complete, synthesizes the results into a final output.
+
+Let's create a simplified two-agent system: a **Researcher Agent** that finds information and a **Writer Agent** that uses that information to write a short paragraph.
+
+```python
+from typing import List, TypedDict, Annotated
+import operator
+
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
+from langchain_core.tools import tool
+from langchain_openai import ChatOpenAI
+from langgraph.graph import StateGraph, END
+
+
+# A simple search tool for the researcher
+@tool
+def simple_search(query: str) -> str:
+    """A simple search tool that returns a predefined string for a given query."""
+    if "context engineering" in query.lower():
+        return (
+            "Context engineering is the practice "
+            "of designing and managing the information provided "
+            "to an LLM to improve its performance."
+        )
+    else:
+        return "No information found."
+
+
+# 1. Define the Graph State
+class MultiAgentState(TypedDict): # <1>
+    messages: Annotated[List[BaseMessage], operator.add]
+    sender: str # <1>
+
+
+# 2. Define the Agents (as nodes)
+def researcher_agent(state: MultiAgentState): # <2>
+    # This agent's job is to use the search tool
+    query = state["messages"][-1].content
+    tool_output = simple_search.invoke(query)
+    return {"messages": [AIMessage(content=tool_output)], "sender": "Researcher"}
+
+
+def writer_agent(state: MultiAgentState):
+    # This agent's job is to write a paragraph based on the researcher's findings
+    research_finding = state["messages"][-1].content
+    prompt = (
+        "Write a short, engaging paragraph "
+        f"about the following topic: {research_finding}"
+    )
+    llm = ChatOpenAI(model="gpt-4o", temperature=0.7)
+    response = llm.invoke(prompt)
+    return {"messages": [AIMessage(content=response.content)], "sender": "Writer"} # <2>
+
+
+# 3. Define the Router (a conditional edge)
+def router(state: MultiAgentState): # <3>
+    # This router decides which agent to send the message to next
+    sender = state["sender"]
+    if sender == "Researcher":
+        return "writer"
+    else:
+        return "researcher" # <3>
+
+
+# 4. Build the Graph # <4>
+workflow = StateGraph(MultiAgentState)
+
+workflow.add_node("researcher", researcher_agent)
+workflow.add_node("writer", writer_agent)
+
+# The router will decide the first agent to call
+workflow.add_conditional_edges(
+    "__start__",
+    lambda state: "researcher",  # Start with the researcher
+    {"researcher": "researcher"},
+)
+
+workflow.add_conditional_edges("researcher", router, {"writer": "writer"})
+
+workflow.add_conditional_edges(
+    "writer",
+    lambda state: "__end__",  # End after the writer
+    {"__end__": END},
+)
+
+app = workflow.compile() # <4>
+
+# 5. Run the Multi-Agent System
+print("\n--- Multi-Agent System Interaction ---")
+inputs = {"messages": [HumanMessage(content="Tell me about context engineering")]}
+for s in app.stream(inputs):
+    print(s)
+```
+
+1. `MultiAgentState` includes a `sender` field to track which agent last modified the state. This is crucial for routing.
+2. `researcher_agent` and `writer_agent` nodes are functions that represent our two specialised agents. The researcher uses the `simple_search` tool, and the writer uses an LLM to generate text based on the researcher's findings.
+3. `router` Conditional Edge is a function that acts as the central orchestrator. It inspects the `sender` in the state and decides which agent should act next. In this simple case, it creates a linear handoff from the researcher to the writer.
+4. Graph Construction: We define the agent nodes and then use conditional edges to control the flow. We start with the researcher, then the router sends the control to the writer, and finally, the workflow ends.
+
+This multi-agent example illustrates how LangGraph can be used to build complex, collaborative systems. The shared `State` acts as the communication channel and shared memory between agents, and the routing logic allows for sophisticated orchestration. This is a powerful paradigm for tackling complex problems that benefit from multiple specialised perspectives, all underpinned by careful context engineering.
+
+## Conclusion
+
+In this post, we explored how LangGraph empowers context engineering through explicit control of information flow, multi-step reasoning, and seamless multi-agent collaboration. By walking through practical examples - stateful assistants, RAG pipelines, and multi-agent workflows - we've seen how LangGraph's architecture makes context management transparent and scalable for real-world LLM applications.
+
+In the final part of this three-part series, we will summarise the context engineering best practices.

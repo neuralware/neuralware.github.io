@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Prashant Patel">
+<meta name="dcterms.date" content="2025-06-13">
 
-<title>👋 Hey there! – neuralware</title>
+<title>Context Engineering: Building Smarter AI Agents - Part 1/3 – neuralware</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +25,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href=".//img/nw-fav.png" rel="icon" type="image/png">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a291732ec108873bd05028113c4bfc99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../..//img/nw-fav.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-a291732ec108873bd05028113c4bfc99.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -68,82 +68,24 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../footer.css">
+</head>
 
-<link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="footer.css">
-<link rel="alternate" type="application/rss+xml" title="neuralware" href="index.xml" data-external="1"></head>
-
-<body class="nav-fixed fullcontent">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./img/nw.png" alt="" class="navbar-logo">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../img/nw.png" alt="" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">neuralware</span>
     </a>
   </div>
@@ -154,11 +96,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../../index.html"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item compact">
@@ -177,7 +119,7 @@ window.Quarto = {
 <span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="./index.xml"> <i class="bi bi-rss" role="img">
+    <a class="nav-link" href="../../index.xml"> <i class="bi bi-rss" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -192,15 +134,31 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">👋 Hey there!</h1>
-            <p class="subtitle lead">Welcome to my blog. This is where I document my learning journey - clear, detailed, and practical enough to follow without feeling like reading a textbook.</p>
-                      </div>
+      <h1 class="title">Context Engineering: Building Smarter AI Agents - Part 1/3</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">AI Agents</div>
+                <div class="quarto-category">LangGraph</div>
+                <div class="quarto-category">Context Engineering</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Prashant Patel </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 13, 2025</p>
+      </div>
+    </div>
     
       
     </div>
@@ -209,7 +167,29 @@ window.Quarto = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of Contents</h2>
+   
+  <ul>
+  <li><a href="#beyond-prompt-engineering-the-rise-of-context-engineering" id="toc-beyond-prompt-engineering-the-rise-of-context-engineering" class="nav-link active" data-scroll-target="#beyond-prompt-engineering-the-rise-of-context-engineering">Beyond Prompt Engineering – The Rise of Context Engineering</a>
+  <ul class="collapse">
+  <li><a href="#the-evolution-of-llm-interaction" id="toc-the-evolution-of-llm-interaction" class="nav-link" data-scroll-target="#the-evolution-of-llm-interaction">The Evolution of LLM Interaction</a></li>
+  <li><a href="#what-is-context-engineering" id="toc-what-is-context-engineering" class="nav-link" data-scroll-target="#what-is-context-engineering">What is Context Engineering?</a></li>
+  <li><a href="#why-is-context-engineering-crucial" id="toc-why-is-context-engineering-crucial" class="nav-link" data-scroll-target="#why-is-context-engineering-crucial">Why is Context Engineering Crucial?</a></li>
+  </ul></li>
+  <li><a href="#pillars-of-context-in-llm-applications" id="toc-pillars-of-context-in-llm-applications" class="nav-link" data-scroll-target="#pillars-of-context-in-llm-applications">Pillars of Context in LLM Applications</a>
+  <ul class="collapse">
+  <li><a href="#dynamic-and-evolving-context" id="toc-dynamic-and-evolving-context" class="nav-link" data-scroll-target="#dynamic-and-evolving-context">Dynamic and Evolving Context</a></li>
+  <li><a href="#full-contextual-coverage" id="toc-full-contextual-coverage" class="nav-link" data-scroll-target="#full-contextual-coverage">Full Contextual Coverage</a></li>
+  <li><a href="#tools-and-external-information" id="toc-tools-and-external-information" class="nav-link" data-scroll-target="#tools-and-external-information">Tools and External Information</a></li>
+  <li><a href="#memory-management-short-term-long-term" id="toc-memory-management-short-term-long-term" class="nav-link" data-scroll-target="#memory-management-short-term-long-term">Memory Management (Short-term &amp; Long-term)</a></li>
+  <li><a href="#structured-data-and-format" id="toc-structured-data-and-format" class="nav-link" data-scroll-target="#structured-data-and-format">Structured Data and Format</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
@@ -217,77 +197,104 @@ window.Quarto = {
 
 
 
+<p>For the past two years, I’ve been building generative AI applications for businesses - everything from straightforward workflows that automate simple tasks to sophisticated AI agents powering complex conversational experiences. Lately, I’ve noticed the term “context engineering” popping up everywhere in the AI community. I dug into what it actually means, only to realise it’s essentially what I’ve already been doing while developing agentic AI systems with frameworks like LangGraph. It turns out, the practices behind context engineering aren’t new - they’ve just finally been given a name.</p>
+<p>In this post - the first in a three-part series - I’ll share a deep dive into context engineering, drawing on my experience building agentic AI applications for real-world businesses. I’ll illustrate key concepts with practical examples and walk through LangGraph code snippets to show how it naturally supports context engineering in practice. So, sit back, relax, and enjoy the read! 📖</p>
+<section id="beyond-prompt-engineering-the-rise-of-context-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="beyond-prompt-engineering-the-rise-of-context-engineering">Beyond Prompt Engineering – The Rise of Context Engineering</h2>
+<section id="the-evolution-of-llm-interaction" class="level3">
+<h3 class="anchored" data-anchor-id="the-evolution-of-llm-interaction">The Evolution of LLM Interaction</h3>
+<p>In the rapidly evolving landscape of Artificial Intelligence, Large Language Models (LLMs) have transitioned from being mere conversational tools to becoming the core intelligence of sophisticated, dynamic agentic systems. Initially, interacting with LLMs primarily involved crafting precise, single-turn prompts – a practice widely known as prompt engineering. This approach, while effective for specific, isolated queries, quickly revealed its limitations when faced with complex, multi-step tasks or ongoing dialogues. The need for LLMs to maintain state, interact with external tools, and engage in multi-turn reasoning led to the development of more advanced interaction paradigms.</p>
+</section>
+<section id="what-is-context-engineering" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-context-engineering">What is Context Engineering?</h3>
+<p>As LLM applications grew in complexity, a new discipline emerged: <strong>Context Engineering</strong>. At its heart, context engineering is the art and science of meticulously managing the information an LLM uses to think, act, and decide. It’s about constructing dynamic systems that provide the right information and tools, in the optimal format, at precisely the right moment, to enable an LLM to accomplish a given task reliably and effectively.</p>
+<p>To distinguish it from prompt engineering: while prompt engineering focuses on the user-facing input to produce a desired response, context engineering is a developer-facing discipline. It delves into the underlying architecture and data flows, ensuring that the LLM receives a comprehensive and well-structured input that goes far beyond a simple prompt. This comprehensive input, or ‘context,’ encompasses a wide array of elements, including:</p>
+<ul>
+<li><strong>System Instructions:</strong> High-level directives that define the LLM’s role, persona, and constraints.</li>
+<li><strong>Retrieved Content:</strong> Information pulled from external knowledge bases, databases, or documents relevant to the current task.</li>
+<li><strong>Tool Outputs:</strong> Results from external tools or APIs that the LLM has invoked (e.g., search results, database queries, code execution outputs).</li>
+<li><strong>Conversation History:</strong> The ongoing dialogue, summarised or filtered to maintain coherence and continuity.</li>
+<li><strong>External Data:</strong> Any other pertinent data points, such as user preferences, environmental variables, or real-time sensor data.</li>
+</ul>
+<p>In essence, context engineering acknowledges that the quality of an LLM’s output is directly proportional to the quality and relevance of the context it receives. It’s about building the intelligent scaffolding around the LLM that allows it to perform at its peak.</p>
+</section>
+<section id="why-is-context-engineering-crucial" class="level3">
+<h3 class="anchored" data-anchor-id="why-is-context-engineering-crucial">Why is Context Engineering Crucial?</h3>
+<p>The adage “garbage in, garbage out” holds particularly true for LLMs. Without relevant, precise, and well-organised context, even the most advanced LLMs can produce unreliable, irrelevant, or hallucinated outputs. Most failures observed in complex AI agents are not due to the inherent limitations of the LLM itself, but rather to what we term “context failures” – instances where the model was not provided with the necessary information to make an informed decision or generate an accurate response.</p>
+<p>This is where <strong>LangGraph</strong> emerges as a pivotal framework. LangGraph, a powerful library within the LangChain ecosystem, provides developers with granular control over the flow of information and the management of context within LLM applications. By enabling the explicit definition of stateful, cyclic workflows, LangGraph allows for meticulous context engineering, ensuring that the LLM always operates with the most pertinent and up-to-date information. It transforms the abstract concept of context management into a tangible, programmable reality, paving the way for the development of truly intelligent and reliable AI agents.</p>
+</section>
+</section>
+<section id="pillars-of-context-in-llm-applications" class="level2">
+<h2 class="anchored" data-anchor-id="pillars-of-context-in-llm-applications">Pillars of Context in LLM Applications</h2>
+<p>To effectively engineer context, it’s crucial to understand its multifaceted nature within LLM applications. Context is not a static entity; it’s a dynamic and evolving construct that underpins the LLM’s ability to reason and act.</p>
+<section id="dynamic-and-evolving-context" class="level3">
+<h3 class="anchored" data-anchor-id="dynamic-and-evolving-context">Dynamic and Evolving Context</h3>
+<p>Unlike traditional software where inputs are often fixed at the beginning of a process, the context for an LLM in an agentic system is assembled and continuously updated on the fly. As a task progresses, new information becomes available, previous actions yield results, and the LLM’s internal state evolves. This necessitates a system that can dynamically manage and update the context provided to the model.</p>
+<blockquote class="blockquote">
+<p>Consider a customer support chatbot. The initial context might be the user’s first query. As the conversation unfolds, the context expands to include the entire conversation history, the chatbot’s previous responses, and any information retrieved from a knowledge base or CRM system. If the user asks for an order status, the system needs to dynamically add order details to the context before querying the LLM.</p>
+</blockquote>
+</section>
+<section id="full-contextual-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="full-contextual-coverage">Full Contextual Coverage</h3>
+<p>It’s not enough to provide just the immediate query; for an LLM to perform optimally, it requires full contextual coverage. This means supplying all necessary information that might influence its understanding, reasoning, or generation. This includes not only the explicit user input but also implicit background information, system-level instructions, and relevant external data.</p>
+<blockquote class="blockquote">
+<p>For a code generation agent, full contextual coverage would involve not just the user’s request for a function, but also the project’s coding standards, existing library dependencies, relevant API documentation, and even examples of similar functions within the codebase. Omitting any of these could lead to suboptimal or incorrect code.</p>
+</blockquote>
+</section>
+<section id="tools-and-external-information" class="level3">
+<h3 class="anchored" data-anchor-id="tools-and-external-information">Tools and External Information</h3>
+<p>One of the most significant advancements in LLM applications is their ability to leverage external tools and access real-time information. This capability is a cornerstone of effective context engineering, as it allows LLMs to overcome their inherent knowledge limitations (i.e., being trained on a fixed dataset) and interact with the dynamic real world. Tools can range from simple search engines and calculators to complex APIs for database interaction, code execution, or external service calls.</p>
+<blockquote class="blockquote">
+<p>An LLM agent tasked with planning a trip needs access to real-time flight prices, hotel availability, and weather forecasts. These pieces of information are not part of its pre-trained knowledge; they must be retrieved dynamically through external tools (e.g., flight booking APIs, weather APIs) and then integrated into the context for the LLM to process and generate a coherent travel plan.</p>
+</blockquote>
+</section>
+<section id="memory-management-short-term-long-term" class="level3">
+<h3 class="anchored" data-anchor-id="memory-management-short-term-long-term">Memory Management (Short-term &amp; Long-term)</h3>
+<p>Effective context engineering relies heavily on robust memory management, which can be broadly categorised into short-term and long-term memory:</p>
+<ul>
+<li><strong>Short-term Memory:</strong> This refers to the immediate, transient context of an ongoing interaction. For LLMs, this often involves managing the conversation history within the model’s context window. Since context windows have limits, strategies like summarisation, truncation, or selective retention are crucial to preserve the most relevant parts of the dialogue.</li>
+</ul>
+<blockquote class="blockquote">
+<p>In a multi-turn conversation, a chatbot might summarise the previous 10 turns into a concise paragraph to keep the LLM informed about the conversation’s trajectory without exceeding the context window limit.</p>
+</blockquote>
+<ul>
+<li><strong>Long-term Memory:</strong> This involves persisting and retrieving information that spans across multiple sessions or is relevant to a user’s enduring preferences or past interactions. This often utilises external databases, vector stores, or knowledge graphs.</li>
+</ul>
+<blockquote class="blockquote">
+<p>A personalised shopping assistant might store a user’s past purchases, preferred brands, and sizing information in a long-term memory system. When the user returns, this information can be retrieved and added to the context, allowing the LLM to offer highly relevant product recommendations.</p>
+</blockquote>
+</section>
+<section id="structured-data-and-format" class="level3">
+<h3 class="anchored" data-anchor-id="structured-data-and-format">Structured Data and Format</h3>
+<p>The way information is presented to an LLM significantly impacts its ability to process and utilise that information. Well-organised, structured data (e.g., JSON, XML, or clearly delimited text) is far more effective than unstructured, messy data. Providing context in a consistent and predictable format reduces ambiguity and improves the LLM’s parsing and reasoning capabilities.</p>
+<blockquote class="blockquote">
+<p>When providing search results to an LLM, presenting them as a list of JSON objects with clear keys (e.g., <code>{"title": "...", "url": "...", "snippet": "..."}</code>) is much more effective than simply concatenating raw text. The structured format allows the LLM to easily identify and extract specific pieces of information, leading to more accurate and relevant responses.</p>
+</blockquote>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this first part of our three-part series, we’ve unpacked the foundations of context engineering - what it is, why it matters, and how it underpins the next generation of agentic AI systems. By exploring the pillars of context, from dynamic memory management to the integration of external tools and structured data, we’ve set the stage for building truly intelligent, reliable LLM applications.</p>
+<p>In Part 2, we’ll dive into how LangGraph provides the architectural framework to put these principles into practice, enabling you to engineer context with precision and flexibility. Stay tuned!</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-Date
-</th>
-<th>
-Title
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-categories="QUklMjBBZ2VudHMlMkNMYW5nR3JhcGglMkNDb250ZXh0JTIwRW5naW5lZXJpbmc=" data-listing-date-sort="1750982400000" data-listing-file-modified-sort="1751400241051" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="956" data-listing-title-sort="Context Engineering: Building Smarter AI Agents - Part 3/3" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jun 27, 2025</span>
-</td>
-<td>
-<a href="./posts/context-engineering-part-3/index.html" class="title listing-title">Context Engineering: Building Smarter AI Agents - Part 3/3</a>
-</td>
-</tr>
-<tr data-index="1" data-categories="QUklMjBBZ2VudHMlMkNMYW5nR3JhcGglMkNDb250ZXh0JTIwRW5naW5lZXJpbmc=" data-listing-date-sort="1750377600000" data-listing-file-modified-sort="1751400237194" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2666" data-listing-title-sort="Context Engineering: Building Smarter AI Agents - Part 2/3" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jun 20, 2025</span>
-</td>
-<td>
-<a href="./posts/context-engineering-part-2/index.html" class="title listing-title">Context Engineering: Building Smarter AI Agents - Part 2/3</a>
-</td>
-</tr>
-<tr data-index="2" data-categories="QUklMjBBZ2VudHMlMkNMYW5nR3JhcGglMkNDb250ZXh0JTIwRW5naW5lZXJpbmc=" data-listing-date-sort="1749772800000" data-listing-file-modified-sort="1751400229310" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1473" data-listing-title-sort="Context Engineering: Building Smarter AI Agents - Part 1/3" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jun 13, 2025</span>
-</td>
-<td>
-<a href="./posts/context-engineering-part-1/index.html" class="title listing-title">Context Engineering: Building Smarter AI Agents - Part 1/3</a>
-</td>
-</tr>
-<tr data-index="3" data-categories="TUNQJTJDTGFuZ0dyYXBo" data-listing-date-sort="1747526400000" data-listing-file-modified-sort="1747613896571" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1497" data-listing-title-sort="MCP Explained: The Bridge Between AI and the Real World" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">May 18, 2025</span>
-</td>
-<td>
-<a href="./posts/langgraph-mcp/index.html" class="title listing-title">MCP Explained: The Bridge Between AI and the Real World</a>
-</td>
-</tr>
-<tr data-index="4" data-categories="QXJjaGl0ZWN0dXJlJTJDTGFuZ0dyYXBoJTJDUmVkaXM=" data-listing-date-sort="1746144000000" data-listing-file-modified-sort="1746199817986" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1121" data-listing-title-sort="How LangGraph Uses Redis for Fault-Tolerant Task Execution" data-listing-filename-sort="index.md">
-<td>
-<span class="listing-date">May 2, 2025</span>
-</td>
-<td>
-<a href="./posts/langgraph-redis/index.html" class="title listing-title">How LangGraph Uses Redis for Fault-Tolerant Task Execution</a>
-</td>
-</tr>
-<tr data-index="5" data-categories="QUklMjBBZ2VudHMlMkNEZXBsb3ltZW50JTJDTGFuZ0dyYXBo" data-listing-date-sort="1745539200000" data-listing-file-modified-sort="1746141203246" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="11" data-listing-word-count-sort="2179" data-listing-title-sort="How to Build and Deploy an AI Agent using LangGraph from Scratch" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Apr 25, 2025</span>
-</td>
-<td>
-<a href="./posts/langgraph-deployment/index.html" class="title listing-title">How to Build and Deploy an AI Agent using LangGraph from Scratch</a>
-</td>
-</tr>
-</tbody>
-</table>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{patel2025,
+  author = {Patel, Prashant},
+  title = {Context {Engineering:} {Building} {Smarter} {AI} {Agents} -
+    {Part} 1/3},
+  date = {2025-06-13},
+  url = {https://neuralware.github.io/posts/context-engineering-part-1/},
+  langid = {en}
+}
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-patel2025" class="csl-entry quarto-appendix-citeas" role="listitem">
+Patel, Prashant. 2025. <span>“Context Engineering: Building Smarter AI
+Agents - Part 1/3.”</span> June 13, 2025. <a href="https://neuralware.github.io/posts/context-engineering-part-1/">https://neuralware.github.io/posts/context-engineering-part-1/</a>.
+</div></div></section></div></main> <!-- /main -->
+<!-- <div>
+    <iframe src="https://embeds.beehiiv.com/2993af36-b810-4ea0-a30f-e5ef6c74d16f" data-test-id="beehiiv-embed" width="100%" height="200" frameborder="0" scrolling="no" style="margin: 0; background-color: transparent;"></iframe>
+</div> -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -705,6 +712,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://utteranc.es/client.js" repo="neuralware/blog-comments" issue-term="url" theme="github-light" crossorigin="anonymous" async="">
+</script>
 </div> <!-- /content -->
 <footer class="footer">
   <div class="nav-footer">
@@ -730,5 +739,5 @@ Content available under <a href="https://creativecommons.org/licenses/by/4.0/" t
 
 
 
-<script src="site_libs/quarto-html/zenscroll-min.js"></script>
+<script src="../../site_libs/quarto-html/zenscroll-min.js"></script>
 </body></html>
