@@ -10,7 +10,1306 @@
 <atom:link href="https://neuralware.github.io/index.xml" rel="self" type="application/rss+xml"/>
 <description></description>
 <generator>quarto-1.6.42</generator>
-<lastBuildDate>Sun, 18 May 2025 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 27 Jun 2025 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Context Engineering: Building Smarter AI Agents - Part 3/3</title>
+  <dc:creator>Prashant Patel</dc:creator>
+  <link>https://neuralware.github.io/posts/context-engineering-part-3/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="best-practices-for-context-engineering-with-langgraph" class="level2">
+<h2 class="anchored" data-anchor-id="best-practices-for-context-engineering-with-langgraph">Best Practices for Context Engineering with LangGraph</h2>
+<p>In <a href="https://neuralware.github.io/posts/context-engineering-part-1/">Part 1</a> and <a href="https://neuralware.github.io/posts/context-engineering-part-2/">Part 2</a> of this series, we introduced Context Engineering and explored how to use LangGraph to build context-aware AI applications, however, building robust and intelligent LLM applications with LangGraph requires more than just understanding the syntax; it demands a strategic approach to context engineering. Here are some best practices to guide your development:</p>
+<section id="define-clear-goals-and-constraints" class="level3">
+<h3 class="anchored" data-anchor-id="define-clear-goals-and-constraints">Define Clear Goals and Constraints</h3>
+<p>Before you even start coding, clearly articulate what you want your LLM application to achieve. What are its primary functions? What are its limitations? Understanding the scope and purpose will help you identify what context is truly necessary and what is superfluous. For instance, a customer service bot needs different context than a creative writing assistant.</p>
+</section>
+<section id="curate-and-structure-context" class="level3">
+<h3 class="anchored" data-anchor-id="curate-and-structure-context">Curate and Structure Context</h3>
+<p>The quality of your LLM’s output is directly proportional to the quality and relevance of the context it receives.</p>
+<ul>
+<li><strong>Relevance is Key:</strong> Only provide information that is directly pertinent to the current task. Overloading the context window with irrelevant data can lead to confusion, increased token usage, and diminished performance.</li>
+<li><strong>Precision Matters:</strong> Ensure the information is accurate and unambiguous. Vague or contradictory context will lead to vague or contradictory responses.</li>
+<li><strong>Structure for Clarity:</strong> Present context in a clear, consistent, and structured format. Use JSON, XML, or well-defined Markdown to organise information. This makes it easier for the LLM to parse and extract the necessary details.</li>
+<li><strong>Prioritise Information:</strong> If context window limits are a concern, prioritise the most critical information. Techniques like summarisation or hierarchical retrieval can help manage large volumes of data.</li>
+</ul>
+</section>
+<section id="implement-robust-memory-mechanisms" class="level3">
+<h3 class="anchored" data-anchor-id="implement-robust-memory-mechanisms">Implement Robust Memory Mechanisms</h3>
+<p>Effective memory management is fundamental to maintaining coherent and personalised interactions.</p>
+<ul>
+<li><strong>Short-term Memory (Conversation History):</strong> For ongoing dialogues, implement strategies to manage conversation history. This might involve:
+<ul>
+<li><strong>Summarisation:</strong> Periodically summarising past turns to condense the history while retaining key information.</li>
+<li><strong>Windowing:</strong> Keeping only the most recent N turns or a fixed number of tokens.</li>
+<li><strong>Hybrid Approaches:</strong> Combining summarisation with a sliding window.</li>
+</ul></li>
+<li><strong>Long-term Memory (Knowledge Bases):</strong> For information that needs to persist across sessions or is too large for the context window, integrate with external knowledge bases. This typically involves:
+<ul>
+<li><strong>Vector Databases:</strong> Storing embeddings of documents and retrieving relevant chunks based on semantic similarity (as seen in the RAG example).</li>
+<li><strong>Traditional Databases:</strong> Storing structured data like user profiles, preferences, or past transactions.</li>
+<li><strong>Knowledge Graphs:</strong> Representing complex relationships between entities for more sophisticated retrieval.</li>
+</ul></li>
+</ul>
+</section>
+<section id="strategic-tool-integration" class="level3">
+<h3 class="anchored" data-anchor-id="strategic-tool-integration">Strategic Tool Integration</h3>
+<p>Tools extend the capabilities of your LLM, allowing it to interact with the real world and access up-to-date information.</p>
+<ul>
+<li><strong>Define Tool Capabilities Clearly:</strong> Ensure your tools have clear, concise descriptions that accurately convey their function to the LLM. The LLM relies on these descriptions to decide when and how to use a tool.</li>
+<li><strong>Handle Tool Outputs:</strong> Design your graph to effectively process and integrate tool outputs back into the context. This might involve parsing JSON responses, summarising long text outputs, or handling errors gracefully.</li>
+<li><strong>Conditional Tool Use:</strong> Leverage LangGraph’s conditional edges to enable the LLM to dynamically decide whether a tool call is necessary based on the current query and context. This prevents unnecessary tool invocations and improves efficiency.</li>
+</ul>
+</section>
+<section id="iterative-development-and-testing" class="level3">
+<h3 class="anchored" data-anchor-id="iterative-development-and-testing">Iterative Development and Testing</h3>
+<p>Context engineering is rarely a one-shot process. It requires continuous refinement.</p>
+<ul>
+<li><strong>Start Simple:</strong> Begin with a basic graph and gradually add complexity. Test each component and connection thoroughly.</li>
+<li><strong>Test Edge Cases:</strong> Don’t just test happy paths. Actively try to break your system by providing ambiguous queries, unexpected inputs, or requests that require complex reasoning or tool use.</li>
+<li><strong>Monitor Performance:</strong> Track metrics like response time, accuracy, and token usage. Identify bottlenecks or areas where context management can be improved.</li>
+</ul>
+</section>
+<section id="leverage-observability-tools-e.g.-langsmith" class="level3">
+<h3 class="anchored" data-anchor-id="leverage-observability-tools-e.g.-langsmith">Leverage Observability Tools (e.g., LangSmith)</h3>
+<p>Tools like LangSmith (from the creators of LangChain and LangGraph) are invaluable for debugging and understanding your LLM applications.</p>
+<ul>
+<li><p><strong>Trace Agent Calls:</strong> LangSmith allows you to visualise the execution flow of your LangGraph application, showing you exactly what context was passed to each node, what the LLM’s thought process was, and what tool calls were made. This is critical for identifying where context might be failing or where the LLM is misinterpreting information.</p></li>
+<li><p><strong>Evaluate Context Effectiveness:</strong> Use these traces to evaluate whether the context you are providing is indeed leading to the desired outcomes. Adjust your context engineering strategies based on these insights.</p></li>
+</ul>
+</section>
+</section>
+<section id="conclusion-the-future-is-context-aware-ai" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion-the-future-is-context-aware-ai">Conclusion: The Future is Context-Aware AI</h2>
+<p>It’s clear that the future of AI development, particularly with LLMs, lies beyond simple prompting. It resides in the meticulous design and management of the information environment in which these powerful models operate.</p>
+<p><strong>Context engineering</strong> is not merely an optimisation; it is a fundamental shift in how we build intelligent systems. By actively curating, structuring, and dynamically managing the context, we empower LLMs to move from being reactive text generators to proactive, reasoning agents capable of tackling complex, real-world problems with unprecedented accuracy and reliability.</p>
+<p><strong>LangGraph</strong> stands out as an indispensable framework in this new paradigm. Its graph-based architecture provides the necessary control and flexibility to orchestrate intricate workflows, manage state across multiple turns, integrate external tools seamlessly, and facilitate sophisticated multi-agent collaborations. It transforms the abstract challenge of context management into a concrete, programmable solution, enabling developers to build truly robust and context-aware AI applications.</p>
+<p>As you embark on your journey to build more intelligent and capable LLM applications, remember that the key to unlocking their full potential lies in mastering context. Embrace context engineering, leverage the power of frameworks like LangGraph, and contribute to the exciting future of AI.</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{patel2025,
+  author = {Patel, Prashant},
+  title = {Context {Engineering:} {Building} {Smarter} {AI} {Agents} -
+    {Part} 3/3},
+  date = {2025-06-27},
+  url = {https://neuralware.github.io/posts/context-engineering-part-3/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-patel2025" class="csl-entry quarto-appendix-citeas">
+Patel, Prashant. 2025. <span>“Context Engineering: Building Smarter AI
+Agents - Part 3/3.”</span> June 27, 2025. <a href="https://neuralware.github.io/posts/context-engineering-part-3/">https://neuralware.github.io/posts/context-engineering-part-3/</a>.
+</div></div></section></div> ]]></description>
+  <category>AI Agents</category>
+  <category>LangGraph</category>
+  <category>Context Engineering</category>
+  <guid>https://neuralware.github.io/posts/context-engineering-part-3/</guid>
+  <pubDate>Fri, 27 Jun 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Context Engineering: Building Smarter AI Agents - Part 2/3</title>
+  <dc:creator>Prashant Patel</dc:creator>
+  <link>https://neuralware.github.io/posts/context-engineering-part-2/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="langgraph-your-toolkit-for-context-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="langgraph-your-toolkit-for-context-engineering">LangGraph: Your Toolkit for Context Engineering</h2>
+<p>Having established the critical role of context engineering in our previous <a href="https://neuralware.github.io/posts/context-engineering-part-1/">post</a>, let’s delve into how LangGraph provides the architectural framework to implement these principles effectively.</p>
+<section id="why-langgraph-excels-at-context-engineering" class="level3">
+<h3 class="anchored" data-anchor-id="why-langgraph-excels-at-context-engineering">Why LangGraph Excels at Context Engineering</h3>
+<p>LangGraph’s design inherently makes it an exceptional tool for context engineering:</p>
+<ul>
+<li><p><strong>Explicit Control over Information Flow:</strong> The graph-based structure forces you to explicitly define how information (context) flows between different components of your application. You decide precisely what information enters each node and what information is passed on to the next. This eliminates implicit dependencies and makes context management transparent.</p></li>
+<li><p><strong>Facilitates Complex, Multi-Step Reasoning:</strong> Many real-world tasks require more than a single LLM call. They involve multiple steps of reasoning, tool use, and information synthesis. LangGraph allows you to orchestrate these complex sequences, ensuring that the context is meticulously managed at each stage. For example, an agent might first retrieve documents, then summarise them, then use the summary to answer a question, and finally, if needed, perform a follow-up search – all while maintaining a consistent and evolving context.</p></li>
+<li><p><strong>Supports Multi-Agent Workflows:</strong> LangGraph is particularly well-suited for building multi-agent systems, where different specialised agents collaborate to achieve a common goal. In such systems, agents often need to share and update a common context. LangGraph’s shared state mechanism and routing capabilities make it straightforward for agents to pass information back and forth, ensuring that each agent has the necessary context to perform its specific role effectively.</p></li>
+</ul>
+<p>In the next section, we will explore practical examples that demonstrate how these LangGraph concepts translate into robust context engineering solutions for common LLM application patterns.</p>
+</section>
+</section>
+<section id="practical-examples-of-context-engineering-with-langgraph" class="level2">
+<h2 class="anchored" data-anchor-id="practical-examples-of-context-engineering-with-langgraph">Practical Examples of Context Engineering with LangGraph</h2>
+<p>Now, let’s dive into practical examples to illustrate how LangGraph facilitates robust context engineering. For these examples, we will use <code>langchain</code> and <code>langgraph</code>. Make sure you have these libraries installed (<code>pip install langchain langchain-openai langgraph</code>) and have your OpenAI API key set as an environment variable (<code>OPENAI_API_KEY</code>).</p>
+<section id="stateful-ai-assitant" class="level3">
+<h3 class="anchored" data-anchor-id="stateful-ai-assitant">Stateful AI Assitant</h3>
+<p><strong>Problem:</strong> A common challenge in building conversational AI is maintaining context across multiple turns. A basic LLM call is stateless, meaning it forgets previous interactions. Furthermore, an AI Assistant often needs to access external information (e.g., current time, weather) to provide relevant responses.</p>
+<p><strong>Context Engineering Solution with LangGraph:</strong> We can design a LangGraph application that maintains conversation history in its state and dynamically decides whether to use a tool based on the user’s query. The state will hold the chat history, which is crucial context for the LLM.</p>
+<p><strong>Conceptual Flow:</strong></p>
+<ol type="1">
+<li>User Input: The user sends a message.</li>
+<li>LLM Call (with History): The LLM receives the current message along with the accumulated conversation history.</li>
+<li>Conditional Edge (Tool Decision): The LLM decides if an external tool (e.g., a search tool) is needed to answer the query.</li>
+<li>Tool Call (if needed): If a tool is required, it’s invoked, and its output is added to the context.</li>
+<li>LLM Call (with Tool Output): The LLM receives the original query, history, and now the tool’s output to formulate a final response.</li>
+<li>Response: The LLM generates the final answer.</li>
+</ol>
+<p>Let’s implement a simplified version of this, focusing on maintaining history and a basic tool call.</p>
+<div class="sourceCode" id="annotated-cell-1" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> operator</span>
+<span id="annotated-cell-1-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> typing <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Annotated, Sequence, TypedDict</span>
+<span id="annotated-cell-1-3"></span>
+<span id="annotated-cell-1-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_core.messages <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> BaseMessage, HumanMessage</span>
+<span id="annotated-cell-1-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_core.tools <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> tool</span>
+<span id="annotated-cell-1-6"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_openai <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> ChatOpenAI</span>
+<span id="annotated-cell-1-7"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langgraph.graph <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> StateGraph, END</span>
+<span id="annotated-cell-1-8"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langgraph.prebuilt <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> ToolNode</span>
+<span id="annotated-cell-1-9"></span>
+<span id="annotated-cell-1-10"></span>
+<span id="annotated-cell-1-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 1. Define the Graph State</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1">1</button><span id="annotated-cell-1-12" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> AgentState(TypedDict):</span>
+<span id="annotated-cell-1-13">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The list of messages passed between the agents</span></span>
+<span id="annotated-cell-1-14">    messages: Annotated[Sequence[BaseMessage], operator.add]</span>
+<span id="annotated-cell-1-15"></span>
+<span id="annotated-cell-1-16"></span>
+<span id="annotated-cell-1-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Define a simple tool</span></span>
+<span id="annotated-cell-1-18"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@tool</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2">2</button><span id="annotated-cell-1-19" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> get_current_time(query: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>:</span>
+<span id="annotated-cell-1-20">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Returns the current time. Use this tool when asked about the current time."""</span></span>
+<span id="annotated-cell-1-21">    <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> datetime</span>
+<span id="annotated-cell-1-22"></span>
+<span id="annotated-cell-1-23">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>(datetime.datetime.now().strftime(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"%H:%M:%S"</span>))</span>
+<span id="annotated-cell-1-24"></span>
+<span id="annotated-cell-1-25"></span>
+<span id="annotated-cell-1-26"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create tools list</span></span>
+<span id="annotated-cell-1-27">tools <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [get_current_time]</span>
+<span id="annotated-cell-1-28"></span>
+<span id="annotated-cell-1-29"></span>
+<span id="annotated-cell-1-30"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 2. Define the Nodes</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3">3</button><span id="annotated-cell-1-31" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> call_llm(state: AgentState):</span>
+<span id="annotated-cell-1-32">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Node for LLM interaction with tool calling capabilities"""</span></span>
+<span id="annotated-cell-1-33">    messages <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>]</span>
+<span id="annotated-cell-1-34">    model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ChatOpenAI(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gpt-4o"</span>, temperature<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>).bind_tools(tools)</span>
+<span id="annotated-cell-1-35">    response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> model.invoke(messages)</span>
+<span id="annotated-cell-1-36">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>: [response]}</span>
+<span id="annotated-cell-1-37"></span>
+<span id="annotated-cell-1-38"></span>
+<span id="annotated-cell-1-39"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Use LangGraph's built-in ToolNode for real tool execution</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="4">4</button><span id="annotated-cell-1-40" class="code-annotation-target">tool_node <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ToolNode(tools)</span>
+<span id="annotated-cell-1-41"></span>
+<span id="annotated-cell-1-42"></span>
+<span id="annotated-cell-1-43"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 3. Define the Conditional Edge Logic</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="5">5</button><span id="annotated-cell-1-44" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> should_continue(state: AgentState):</span>
+<span id="annotated-cell-1-45">    messages <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>]</span>
+<span id="annotated-cell-1-46">    last_message <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> messages[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>]</span>
+<span id="annotated-cell-1-47">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Check if the last message has tool calls</span></span>
+<span id="annotated-cell-1-48">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> last_message.tool_calls:</span>
+<span id="annotated-cell-1-49">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"call_tool"</span></span>
+<span id="annotated-cell-1-50">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"end"</span></span>
+<span id="annotated-cell-1-51"></span>
+<span id="annotated-cell-1-52"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="6">6</button><span id="annotated-cell-1-53" class="code-annotation-target"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 4. Build the Graph</span></span>
+<span id="annotated-cell-1-54">workflow <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> StateGraph(AgentState)</span>
+<span id="annotated-cell-1-55"></span>
+<span id="annotated-cell-1-56">workflow.add_node(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"llm"</span>, call_llm)</span>
+<span id="annotated-cell-1-57">workflow.add_node(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tool"</span>, tool_node)</span>
+<span id="annotated-cell-1-58"></span>
+<span id="annotated-cell-1-59">workflow.set_entry_point(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"llm"</span>)</span>
+<span id="annotated-cell-1-60"></span>
+<span id="annotated-cell-1-61"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Add conditional edges based on tool calls</span></span>
+<span id="annotated-cell-1-62">workflow.add_conditional_edges(</span>
+<span id="annotated-cell-1-63">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"llm"</span>,</span>
+<span id="annotated-cell-1-64">    should_continue,</span>
+<span id="annotated-cell-1-65">    {</span>
+<span id="annotated-cell-1-66">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"call_tool"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tool"</span>,</span>
+<span id="annotated-cell-1-67">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"end"</span>: END,</span>
+<span id="annotated-cell-1-68">    },</span>
+<span id="annotated-cell-1-69">)</span>
+<span id="annotated-cell-1-70"></span>
+<span id="annotated-cell-1-71"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># After tool execution, always return to LLM to process results</span></span>
+<span id="annotated-cell-1-72">workflow.add_edge(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tool"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"llm"</span>)</span>
+<span id="annotated-cell-1-73"></span>
+<span id="annotated-cell-1-74">app <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> workflow.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">compile</span>()</span>
+<span id="annotated-cell-1-75"></span>
+<span id="annotated-cell-1-76"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 5. Run the AI Assistant</span></span>
+<span id="annotated-cell-1-77"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">--- AI Assistant Interaction ---"</span>)</span>
+<span id="annotated-cell-1-78">inputs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>: [HumanMessage(content<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Hello, how are you?"</span>)]}</span>
+<span id="annotated-cell-1-79"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> app.stream(inputs):</span>
+<span id="annotated-cell-1-80">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(s)</span>
+<span id="annotated-cell-1-81"></span>
+<span id="annotated-cell-1-82"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">--- AI Assistant Interaction (asking for time) ---"</span>)</span>
+<span id="annotated-cell-1-83">inputs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>: [HumanMessage(content<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"What is the current time?"</span>)]}</span>
+<span id="annotated-cell-1-84"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> app.stream(inputs):</span>
+<span id="annotated-cell-1-85">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(s)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="12,14" data-code-annotation="1"><code>AgentState</code> is a <code>TypedDict</code> that defines the structure of our graph’s state. It primarily holds a <code>messages</code> list, which is crucial for maintaining conversation history. The <code>operator.add</code> annotation ensures that new messages are appended to the existing list, preserving the context.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="19,23" data-code-annotation="2"><code>get_current_time</code> tool is a simple Python function decorated with <code>@tool</code> that simulates an external capability. The LLM can be prompted to use this tool.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="31,36" data-code-annotation="3"><code>call_llm</code> node takes the current <code>messages</code> from the state, invokes the <code>ChatOpenAI</code> model, and returns the LLM’s response, which is then added back to the <code>messages</code> in the state.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="40" data-code-annotation="4"><code>tool_node</code> is responsible for executing the tool.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="44,50" data-code-annotation="5"><code>should_continue</code> conditional edge determines the next step based on the LLM’s last message. If the LLM indicates a tool call, it routes to the <code>tool_node</code>; otherwise, it routes to <code>END</code> (meaning the conversation turn is complete) or back to <code>llm</code> for further processing.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="53,74" data-code-annotation="6">To construct the graph we define the nodes and then use <code>add_conditional_edges</code> to create the dynamic flow. The <code>set_entry_point</code> defines where the graph execution begins.</span>
+</dd>
+</dl>
+<p>This example demonstrates how LangGraph uses its <code>State</code> to manage the evolving context (conversation history) and <code>Conditional Edges</code> to dynamically route the flow based on the LLM’s decision, enabling tool use. The entire interaction, including the tool’s output, becomes part of the context for subsequent LLM calls.</p>
+</section>
+<section id="document-qa-with-rag" class="level3">
+<h3 class="anchored" data-anchor-id="document-qa-with-rag">Document Q&amp;A with RAG</h3>
+<p><strong>Problem:</strong> Large Language Models have vast general knowledge, but they lack specific, up-to-date, or proprietary information contained within private documents (e.g., internal company policies, specific research papers). Directly feeding large documents into the LLM’s context window is often impractical due to token limits and can lead to the LLM getting lost in the noise.</p>
+<p><strong>Context Engineering Solution with LangGraph:</strong> The solution is to implement a Retrieval Augmented Generation (RAG) pipeline. In a RAG system, we first retrieve relevant snippets of information from our documents based on the user’s query. Then, we provide these snippets as context to the LLM, along with the original query, to generate a concise and accurate answer. LangGraph is ideal for orchestrating this multi-step process.</p>
+<p><strong>Conceptual Flow:</strong></p>
+<ol type="1">
+<li><strong>User Query</strong>: The user asks a question about the documents.</li>
+<li><strong>Retriever</strong>: A retriever (e.g., a vector database) searches the document collection and finds the most relevant chunks of text.</li>
+<li><strong>LLM (Generation)</strong>: The LLM receives the user’s query and the retrieved document snippets as context and generates an answer based on this information.</li>
+</ol>
+<p>Let’s build a simple RAG agent using LangGraph. We’ll use a simple in-memory vector store for this example.</p>
+<div class="sourceCode" id="annotated-cell-2" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-2-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> typing <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> List, TypedDict</span>
+<span id="annotated-cell-2-2"></span>
+<span id="annotated-cell-2-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_community.vectorstores <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> FAISS</span>
+<span id="annotated-cell-2-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_core.documents <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Document</span>
+<span id="annotated-cell-2-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_core.runnables <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> RunnablePassthrough</span>
+<span id="annotated-cell-2-6"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_core.prompts <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> ChatPromptTemplate</span>
+<span id="annotated-cell-2-7"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_openai <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> ChatOpenAI, OpenAIEmbeddings</span>
+<span id="annotated-cell-2-8"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langgraph.graph <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> StateGraph, END</span>
+<span id="annotated-cell-2-9"></span>
+<span id="annotated-cell-2-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 1. Define the Graph State</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1">1</button><span id="annotated-cell-2-11" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> RagState(TypedDict):</span>
+<span id="annotated-cell-2-12">    query: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span></span>
+<span id="annotated-cell-2-13">    documents: List[Document]</span>
+<span id="annotated-cell-2-14">    answer: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span></span>
+<span id="annotated-cell-2-15"></span>
+<span id="annotated-cell-2-16"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 2. Set up the Retriever</span></span>
+<span id="annotated-cell-2-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Sample documents</span></span>
+<span id="annotated-cell-2-18">texts <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="annotated-cell-2-19">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"LangGraph is a library for building stateful, multi-actor applications with LLMs."</span>,</span>
+<span id="annotated-cell-2-20">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Context engineering is the art of providing the right information to an LLM."</span>,</span>
+<span id="annotated-cell-2-21">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"LangGraph makes it easy to create complex agentic workflows."</span></span>
+<span id="annotated-cell-2-22">]</span>
+<span id="annotated-cell-2-23">documents <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [Document(page_content<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>t) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> t <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> texts]</span>
+<span id="annotated-cell-2-24"></span>
+<span id="annotated-cell-2-25"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a simple in-memory vector store</span></span>
+<span id="annotated-cell-2-26">embeddings <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> OpenAIEmbeddings()</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2">2</button><span id="annotated-cell-2-27" class="code-annotation-target">vectorstore <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> FAISS.from_documents(documents, embeddings)</span>
+<span id="annotated-cell-2-28">retriever <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> vectorstore.as_retriever()</span>
+<span id="annotated-cell-2-29"></span>
+<span id="annotated-cell-2-30"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 3. Define the Nodes</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3">3</button><span id="annotated-cell-2-31" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> retrieve_documents(state: RagState):</span>
+<span id="annotated-cell-2-32">    query <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"query"</span>]</span>
+<span id="annotated-cell-2-33">    retrieved_docs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> retriever.invoke(query)</span>
+<span id="annotated-cell-2-34">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"documents"</span>: retrieved_docs}</span>
+<span id="annotated-cell-2-35"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="4">4</button><span id="annotated-cell-2-36" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> generate_answer(state: RagState):</span>
+<span id="annotated-cell-2-37">    query <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"query"</span>]</span>
+<span id="annotated-cell-2-38">    documents <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"documents"</span>]</span>
+<span id="annotated-cell-2-39">    </span>
+<span id="annotated-cell-2-40">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a prompt template</span></span>
+<span id="annotated-cell-2-41">    prompt_template <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""Answer the user's question based only on the following </span></span>
+<span id="annotated-cell-2-42"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">    context:</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n\n</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{context}</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">Question: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{question}</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="annotated-cell-2-43">    prompt <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ChatPromptTemplate.from_template(prompt_template)</span>
+<span id="annotated-cell-2-44">    </span>
+<span id="annotated-cell-2-45">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create a chain</span></span>
+<span id="annotated-cell-2-46">    llm <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ChatOpenAI(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gpt-4o"</span>, temperature<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="annotated-cell-2-47">    </span>
+<span id="annotated-cell-2-48">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> format_docs(docs):</span>
+<span id="annotated-cell-2-49">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>.join(doc.page_content <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> doc <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> docs)</span>
+<span id="annotated-cell-2-50"></span>
+<span id="annotated-cell-2-51">    rag_chain <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="annotated-cell-2-52">        {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"context"</span>: retriever <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> format_docs, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"question"</span>: RunnablePassthrough()}</span>
+<span id="annotated-cell-2-53">        <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> prompt</span>
+<span id="annotated-cell-2-54">        <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> llm</span>
+<span id="annotated-cell-2-55">    )</span>
+<span id="annotated-cell-2-56">    </span>
+<span id="annotated-cell-2-57">    answer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> rag_chain.invoke(query)</span>
+<span id="annotated-cell-2-58">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"answer"</span>: answer.content}</span>
+<span id="annotated-cell-2-59"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="5">5</button><span id="annotated-cell-2-60" class="code-annotation-target"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 4. Build the Graph</span></span>
+<span id="annotated-cell-2-61">workflow <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> StateGraph(RagState)</span>
+<span id="annotated-cell-2-62"></span>
+<span id="annotated-cell-2-63">workflow.add_node(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"retriever"</span>, retrieve_documents)</span>
+<span id="annotated-cell-2-64">workflow.add_node(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"generator"</span>, generate_answer)</span>
+<span id="annotated-cell-2-65"></span>
+<span id="annotated-cell-2-66">workflow.set_entry_point(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"retriever"</span>)</span>
+<span id="annotated-cell-2-67">workflow.add_edge(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"retriever"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"generator"</span>)</span>
+<span id="annotated-cell-2-68">workflow.add_edge(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"generator"</span>, END)</span>
+<span id="annotated-cell-2-69"></span>
+<span id="annotated-cell-2-70">app <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> workflow.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">compile</span>()</span>
+<span id="annotated-cell-2-71"></span>
+<span id="annotated-cell-2-72"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 5. Run the RAG Agent</span></span>
+<span id="annotated-cell-2-73"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">--- RAG Agent Interaction ---"</span>)</span>
+<span id="annotated-cell-2-74">inputs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"query"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"What is LangGraph?"</span>}</span>
+<span id="annotated-cell-2-75">result <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> app.invoke(inputs)</span>
+<span id="annotated-cell-2-76"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Query: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>result[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'query'</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="annotated-cell-2-77"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Answer: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>result[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'answer'</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="11,14" data-code-annotation="1">This state dictionary holds the <code>query</code>, the retrieved <code>documents</code>, and the final <code>answer</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="27" data-code-annotation="2">For retriever, we create a simple in-memory vector store using <code>FAISS</code> from a few sample documents. In a real-world application, this would likely be a more robust, persistent vector database.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="31,34" data-code-annotation="3"><code>retrieve_documents</code> node takes the user’s <code>query</code> from the state, uses the retriever to find relevant documents, and updates the <code>documents</code> field in the state.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="36,58" data-code-annotation="4"><code>generate_answer</code> node constructs a prompt that includes the retrieved <code>documents</code> as context. It then invokes the LLM to generate an answer based on this context and updates the <code>answer</code> field in the state.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="60,70" data-code-annotation="5">Graph Construction: This is a simpler, linear graph. We define the nodes and then create a straightforward flow from the <code>retriever</code> to the <code>generator</code> and finally to the <code>END</code>.</span>
+</dd>
+</dl>
+<p>This RAG example showcases how LangGraph can be used to orchestrate a multi-step data processing pipeline. The context (retrieved documents) is explicitly passed from one node to the next via the shared <code>State</code>, ensuring that the LLM has the necessary information to generate a grounded and accurate answer.</p>
+</section>
+<section id="multi-agent-workflow" class="level3">
+<h3 class="anchored" data-anchor-id="multi-agent-workflow">Multi-Agent Workflow</h3>
+<p><strong>Problem:</strong> Some tasks are too complex for a single LLM or a single agent to handle effectively. They might require different areas of expertise, or they might benefit from a divide-and-conquer approach. For example, generating a comprehensive research report might involve searching for information, analysing data, writing content, and editing the final draft.</p>
+<p><strong>Context Engineering Solution with LangGraph:</strong> LangGraph is exceptionally well-suited for creating multi-agent workflows. We can define different agents as nodes in the graph and have them collaborate on a shared task. The shared <code>State</code> in LangGraph becomes the central scratchpad where agents can read the current status of the task, access the work of other agents, and contribute their own results.</p>
+<p><strong>Conceptual Flow:</strong></p>
+<ol type="1">
+<li><strong>Orchestrator Agent:</strong> An orchestrator or manager agent receives the initial task and decomposes it into sub-tasks.</li>
+<li><strong>Specialised Sub-Agents:</strong> The orchestrator routes the sub-tasks to specialised agents (e.g., a research agent, a writing agent, an editing agent).</li>
+<li><strong>Shared State:</strong> The sub-agents perform their tasks and update the shared state with their results (e.g., research findings, written paragraphs, edited text).</li>
+<li><strong>Synthesis:</strong> The orchestrator monitors the progress in the shared state and, once all sub-tasks are complete, synthesizes the results into a final output.</li>
+</ol>
+<p>Let’s create a simplified two-agent system: a <strong>Researcher Agent</strong> that finds information and a <strong>Writer Agent</strong> that uses that information to write a short paragraph.</p>
+<div class="sourceCode" id="annotated-cell-3" style="background: #f1f3f5;"><pre class="sourceCode python code-annotation-code code-with-copy code-annotated"><code class="sourceCode python"><span id="annotated-cell-3-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> typing <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> List, TypedDict, Annotated</span>
+<span id="annotated-cell-3-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> operator</span>
+<span id="annotated-cell-3-3"></span>
+<span id="annotated-cell-3-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_core.messages <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> BaseMessage, HumanMessage, AIMessage</span>
+<span id="annotated-cell-3-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_core.tools <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> tool</span>
+<span id="annotated-cell-3-6"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langchain_openai <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> ChatOpenAI</span>
+<span id="annotated-cell-3-7"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> langgraph.graph <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> StateGraph, END</span>
+<span id="annotated-cell-3-8"></span>
+<span id="annotated-cell-3-9"></span>
+<span id="annotated-cell-3-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># A simple search tool for the researcher</span></span>
+<span id="annotated-cell-3-11"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@tool</span></span>
+<span id="annotated-cell-3-12"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> simple_search(query: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>:</span>
+<span id="annotated-cell-3-13">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""A simple search tool that returns a predefined string for a given query."""</span></span>
+<span id="annotated-cell-3-14">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"context engineering"</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> query.lower():</span>
+<span id="annotated-cell-3-15">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> (</span>
+<span id="annotated-cell-3-16">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Context engineering is the practice "</span></span>
+<span id="annotated-cell-3-17">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"of designing and managing the information provided "</span></span>
+<span id="annotated-cell-3-18">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"to an LLM to improve its performance."</span></span>
+<span id="annotated-cell-3-19">        )</span>
+<span id="annotated-cell-3-20">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span>:</span>
+<span id="annotated-cell-3-21">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"No information found."</span></span>
+<span id="annotated-cell-3-22"></span>
+<span id="annotated-cell-3-23"></span>
+<span id="annotated-cell-3-24"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 1. Define the Graph State</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-25" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> MultiAgentState(TypedDict):</span>
+<span id="annotated-cell-3-26">    messages: Annotated[List[BaseMessage], operator.add]</span>
+<span id="annotated-cell-3-27">    sender: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span></span>
+<span id="annotated-cell-3-28"></span>
+<span id="annotated-cell-3-29"></span>
+<span id="annotated-cell-3-30"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 2. Define the Agents (as nodes)</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-31" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> researcher_agent(state: MultiAgentState):</span>
+<span id="annotated-cell-3-32">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This agent's job is to use the search tool</span></span>
+<span id="annotated-cell-3-33">    query <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>][<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].content</span>
+<span id="annotated-cell-3-34">    tool_output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> simple_search.invoke(query)</span>
+<span id="annotated-cell-3-35">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>: [AIMessage(content<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tool_output)], <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sender"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Researcher"</span>}</span>
+<span id="annotated-cell-3-36"></span>
+<span id="annotated-cell-3-37"></span>
+<span id="annotated-cell-3-38"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> writer_agent(state: MultiAgentState):</span>
+<span id="annotated-cell-3-39">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This agent's job is to write a paragraph based on the researcher's findings</span></span>
+<span id="annotated-cell-3-40">    research_finding <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>][<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].content</span>
+<span id="annotated-cell-3-41">    prompt <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="annotated-cell-3-42">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Write a short, engaging paragraph "</span></span>
+<span id="annotated-cell-3-43">        <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"about the following topic: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>research_finding<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="annotated-cell-3-44">    )</span>
+<span id="annotated-cell-3-45">    llm <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ChatOpenAI(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gpt-4o"</span>, temperature<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.7</span>)</span>
+<span id="annotated-cell-3-46">    response <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> llm.invoke(prompt)</span>
+<span id="annotated-cell-3-47">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>: [AIMessage(content<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>response.content)], <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sender"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Writer"</span>}</span>
+<span id="annotated-cell-3-48"></span>
+<span id="annotated-cell-3-49"></span>
+<span id="annotated-cell-3-50"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 3. Define the Router (a conditional edge)</span></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3">3</button><span id="annotated-cell-3-51" class="code-annotation-target"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> router(state: MultiAgentState):</span>
+<span id="annotated-cell-3-52">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This router decides which agent to send the message to next</span></span>
+<span id="annotated-cell-3-53">    sender <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sender"</span>]</span>
+<span id="annotated-cell-3-54">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> sender <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Researcher"</span>:</span>
+<span id="annotated-cell-3-55">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"writer"</span></span>
+<span id="annotated-cell-3-56">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span>:</span>
+<span id="annotated-cell-3-57">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"researcher"</span></span>
+<span id="annotated-cell-3-58"></span>
+<span id="annotated-cell-3-59"></span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4">4</button><span id="annotated-cell-3-60" class="code-annotation-target"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 4. Build the Graph</span></span>
+<span id="annotated-cell-3-61">workflow <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> StateGraph(MultiAgentState)</span>
+<span id="annotated-cell-3-62"></span>
+<span id="annotated-cell-3-63">workflow.add_node(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"researcher"</span>, researcher_agent)</span>
+<span id="annotated-cell-3-64">workflow.add_node(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"writer"</span>, writer_agent)</span>
+<span id="annotated-cell-3-65"></span>
+<span id="annotated-cell-3-66"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The router will decide the first agent to call</span></span>
+<span id="annotated-cell-3-67">workflow.add_conditional_edges(</span>
+<span id="annotated-cell-3-68">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__start__"</span>,</span>
+<span id="annotated-cell-3-69">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span> state: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"researcher"</span>,  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Start with the researcher</span></span>
+<span id="annotated-cell-3-70">    {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"researcher"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"researcher"</span>},</span>
+<span id="annotated-cell-3-71">)</span>
+<span id="annotated-cell-3-72"></span>
+<span id="annotated-cell-3-73">workflow.add_conditional_edges(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"researcher"</span>, router, {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"writer"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"writer"</span>})</span>
+<span id="annotated-cell-3-74"></span>
+<span id="annotated-cell-3-75">workflow.add_conditional_edges(</span>
+<span id="annotated-cell-3-76">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"writer"</span>,</span>
+<span id="annotated-cell-3-77">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span> state: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__end__"</span>,  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># End after the writer</span></span>
+<span id="annotated-cell-3-78">    {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__end__"</span>: END},</span>
+<span id="annotated-cell-3-79">)</span>
+<span id="annotated-cell-3-80"></span>
+<span id="annotated-cell-3-81">app <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> workflow.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">compile</span>()</span>
+<span id="annotated-cell-3-82"></span>
+<span id="annotated-cell-3-83"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># 5. Run the Multi-Agent System</span></span>
+<span id="annotated-cell-3-84"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">--- Multi-Agent System Interaction ---"</span>)</span>
+<span id="annotated-cell-3-85">inputs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"messages"</span>: [HumanMessage(content<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tell me about context engineering"</span>)]}</span>
+<span id="annotated-cell-3-86"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> s <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> app.stream(inputs):</span>
+<span id="annotated-cell-3-87">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(s)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="25,27" data-code-annotation="1"><code>MultiAgentState</code> includes a <code>sender</code> field to track which agent last modified the state. This is crucial for routing.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="31,47" data-code-annotation="2"><code>researcher_agent</code> and <code>writer_agent</code> nodes are functions that represent our two specialised agents. The researcher uses the <code>simple_search</code> tool, and the writer uses an LLM to generate text based on the researcher’s findings.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="51,57" data-code-annotation="3"><code>router</code> Conditional Edge is a function that acts as the central orchestrator. It inspects the <code>sender</code> in the state and decides which agent should act next. In this simple case, it creates a linear handoff from the researcher to the writer.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="60,81" data-code-annotation="4">Graph Construction: We define the agent nodes and then use conditional edges to control the flow. We start with the researcher, then the router sends the control to the writer, and finally, the workflow ends.</span>
+</dd>
+</dl>
+<p>This multi-agent example illustrates how LangGraph can be used to build complex, collaborative systems. The shared <code>State</code> acts as the communication channel and shared memory between agents, and the routing logic allows for sophisticated orchestration. This is a powerful paradigm for tackling complex problems that benefit from multiple specialised perspectives, all underpinned by careful context engineering.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this post, we explored how LangGraph empowers context engineering through explicit control of information flow, multi-step reasoning, and seamless multi-agent collaboration. By walking through practical examples - stateful assistants, RAG pipelines, and multi-agent workflows - we’ve seen how LangGraph’s architecture makes context management transparent and scalable for real-world LLM applications.</p>
+<p>In the final part of this three-part series, we will summarise the context engineering best practices.</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{patel2025,
+  author = {Patel, Prashant},
+  title = {Context {Engineering:} {Building} {Smarter} {AI} {Agents} -
+    {Part} 2/3},
+  date = {2025-06-20},
+  url = {https://neuralware.github.io/posts/context-engineering-part-2/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-patel2025" class="csl-entry quarto-appendix-citeas">
+Patel, Prashant. 2025. <span>“Context Engineering: Building Smarter AI
+Agents - Part 2/3.”</span> June 20, 2025. <a href="https://neuralware.github.io/posts/context-engineering-part-2/">https://neuralware.github.io/posts/context-engineering-part-2/</a>.
+</div></div></section></div> ]]></description>
+  <category>AI Agents</category>
+  <category>LangGraph</category>
+  <category>Context Engineering</category>
+  <guid>https://neuralware.github.io/posts/context-engineering-part-2/</guid>
+  <pubDate>Fri, 20 Jun 2025 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Context Engineering: Building Smarter AI Agents - Part 1/3</title>
+  <dc:creator>Prashant Patel</dc:creator>
+  <link>https://neuralware.github.io/posts/context-engineering-part-1/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>For the past two years, I’ve been building generative AI applications for businesses - everything from straightforward workflows that automate simple tasks to sophisticated AI agents powering complex conversational experiences. Lately, I’ve noticed the term “context engineering” popping up everywhere in the AI community. I dug into what it actually means, only to realise it’s essentially what I’ve already been doing while developing agentic AI systems with frameworks like LangGraph. It turns out, the practices behind context engineering aren’t new - they’ve just finally been given a name.</p>
+<p>In this post - the first in a three-part series - I’ll share a deep dive into context engineering, drawing on my experience building agentic AI applications for real-world businesses. I’ll illustrate key concepts with practical examples and walk through LangGraph code snippets to show how it naturally supports context engineering in practice. So, sit back, relax, and enjoy the read! 📖</p>
+<section id="beyond-prompt-engineering-the-rise-of-context-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="beyond-prompt-engineering-the-rise-of-context-engineering">Beyond Prompt Engineering – The Rise of Context Engineering</h2>
+<section id="the-evolution-of-llm-interaction" class="level3">
+<h3 class="anchored" data-anchor-id="the-evolution-of-llm-interaction">The Evolution of LLM Interaction</h3>
+<p>In the rapidly evolving landscape of Artificial Intelligence, Large Language Models (LLMs) have transitioned from being mere conversational tools to becoming the core intelligence of sophisticated, dynamic agentic systems. Initially, interacting with LLMs primarily involved crafting precise, single-turn prompts – a practice widely known as prompt engineering. This approach, while effective for specific, isolated queries, quickly revealed its limitations when faced with complex, multi-step tasks or ongoing dialogues. The need for LLMs to maintain state, interact with external tools, and engage in multi-turn reasoning led to the development of more advanced interaction paradigms.</p>
+</section>
+<section id="what-is-context-engineering" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-context-engineering">What is Context Engineering?</h3>
+<p>As LLM applications grew in complexity, a new discipline emerged: <strong>Context Engineering</strong>. At its heart, context engineering is the art and science of meticulously managing the information an LLM uses to think, act, and decide. It’s about constructing dynamic systems that provide the right information and tools, in the optimal format, at precisely the right moment, to enable an LLM to accomplish a given task reliably and effectively.</p>
+<p>To distinguish it from prompt engineering: while prompt engineering focuses on the user-facing input to produce a desired response, context engineering is a developer-facing discipline. It delves into the underlying architecture and data flows, ensuring that the LLM receives a comprehensive and well-structured input that goes far beyond a simple prompt. This comprehensive input, or ‘context,’ encompasses a wide array of elements, including:</p>
+<ul>
+<li><strong>System Instructions:</strong> High-level directives that define the LLM’s role, persona, and constraints.</li>
+<li><strong>Retrieved Content:</strong> Information pulled from external knowledge bases, databases, or documents relevant to the current task.</li>
+<li><strong>Tool Outputs:</strong> Results from external tools or APIs that the LLM has invoked (e.g., search results, database queries, code execution outputs).</li>
+<li><strong>Conversation History:</strong> The ongoing dialogue, summarised or filtered to maintain coherence and continuity.</li>
+<li><strong>External Data:</strong> Any other pertinent data points, such as user preferences, environmental variables, or real-time sensor data.</li>
+</ul>
+<p>In essence, context engineering acknowledges that the quality of an LLM’s output is directly proportional to the quality and relevance of the context it receives. It’s about building the intelligent scaffolding around the LLM that allows it to perform at its peak.</p>
+</section>
+<section id="why-is-context-engineering-crucial" class="level3">
+<h3 class="anchored" data-anchor-id="why-is-context-engineering-crucial">Why is Context Engineering Crucial?</h3>
+<p>The adage “garbage in, garbage out” holds particularly true for LLMs. Without relevant, precise, and well-organised context, even the most advanced LLMs can produce unreliable, irrelevant, or hallucinated outputs. Most failures observed in complex AI agents are not due to the inherent limitations of the LLM itself, but rather to what we term “context failures” – instances where the model was not provided with the necessary information to make an informed decision or generate an accurate response.</p>
+<p>This is where <strong>LangGraph</strong> emerges as a pivotal framework. LangGraph, a powerful library within the LangChain ecosystem, provides developers with granular control over the flow of information and the management of context within LLM applications. By enabling the explicit definition of stateful, cyclic workflows, LangGraph allows for meticulous context engineering, ensuring that the LLM always operates with the most pertinent and up-to-date information. It transforms the abstract concept of context management into a tangible, programmable reality, paving the way for the development of truly intelligent and reliable AI agents.</p>
+</section>
+</section>
+<section id="pillars-of-context-in-llm-applications" class="level2">
+<h2 class="anchored" data-anchor-id="pillars-of-context-in-llm-applications">Pillars of Context in LLM Applications</h2>
+<p>To effectively engineer context, it’s crucial to understand its multifaceted nature within LLM applications. Context is not a static entity; it’s a dynamic and evolving construct that underpins the LLM’s ability to reason and act.</p>
+<section id="dynamic-and-evolving-context" class="level3">
+<h3 class="anchored" data-anchor-id="dynamic-and-evolving-context">Dynamic and Evolving Context</h3>
+<p>Unlike traditional software where inputs are often fixed at the beginning of a process, the context for an LLM in an agentic system is assembled and continuously updated on the fly. As a task progresses, new information becomes available, previous actions yield results, and the LLM’s internal state evolves. This necessitates a system that can dynamically manage and update the context provided to the model.</p>
+<blockquote class="blockquote">
+<p>Consider a customer support chatbot. The initial context might be the user’s first query. As the conversation unfolds, the context expands to include the entire conversation history, the chatbot’s previous responses, and any information retrieved from a knowledge base or CRM system. If the user asks for an order status, the system needs to dynamically add order details to the context before querying the LLM.</p>
+</blockquote>
+</section>
+<section id="full-contextual-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="full-contextual-coverage">Full Contextual Coverage</h3>
+<p>It’s not enough to provide just the immediate query; for an LLM to perform optimally, it requires full contextual coverage. This means supplying all necessary information that might influence its understanding, reasoning, or generation. This includes not only the explicit user input but also implicit background information, system-level instructions, and relevant external data.</p>
+<blockquote class="blockquote">
+<p>For a code generation agent, full contextual coverage would involve not just the user’s request for a function, but also the project’s coding standards, existing library dependencies, relevant API documentation, and even examples of similar functions within the codebase. Omitting any of these could lead to suboptimal or incorrect code.</p>
+</blockquote>
+</section>
+<section id="tools-and-external-information" class="level3">
+<h3 class="anchored" data-anchor-id="tools-and-external-information">Tools and External Information</h3>
+<p>One of the most significant advancements in LLM applications is their ability to leverage external tools and access real-time information. This capability is a cornerstone of effective context engineering, as it allows LLMs to overcome their inherent knowledge limitations (i.e., being trained on a fixed dataset) and interact with the dynamic real world. Tools can range from simple search engines and calculators to complex APIs for database interaction, code execution, or external service calls.</p>
+<blockquote class="blockquote">
+<p>An LLM agent tasked with planning a trip needs access to real-time flight prices, hotel availability, and weather forecasts. These pieces of information are not part of its pre-trained knowledge; they must be retrieved dynamically through external tools (e.g., flight booking APIs, weather APIs) and then integrated into the context for the LLM to process and generate a coherent travel plan.</p>
+</blockquote>
+</section>
+<section id="memory-management-short-term-long-term" class="level3">
+<h3 class="anchored" data-anchor-id="memory-management-short-term-long-term">Memory Management (Short-term &amp; Long-term)</h3>
+<p>Effective context engineering relies heavily on robust memory management, which can be broadly categorised into short-term and long-term memory:</p>
+<ul>
+<li><strong>Short-term Memory:</strong> This refers to the immediate, transient context of an ongoing interaction. For LLMs, this often involves managing the conversation history within the model’s context window. Since context windows have limits, strategies like summarisation, truncation, or selective retention are crucial to preserve the most relevant parts of the dialogue.</li>
+</ul>
+<blockquote class="blockquote">
+<p>In a multi-turn conversation, a chatbot might summarise the previous 10 turns into a concise paragraph to keep the LLM informed about the conversation’s trajectory without exceeding the context window limit.</p>
+</blockquote>
+<ul>
+<li><strong>Long-term Memory:</strong> This involves persisting and retrieving information that spans across multiple sessions or is relevant to a user’s enduring preferences or past interactions. This often utilises external databases, vector stores, or knowledge graphs.</li>
+</ul>
+<blockquote class="blockquote">
+<p>A personalised shopping assistant might store a user’s past purchases, preferred brands, and sizing information in a long-term memory system. When the user returns, this information can be retrieved and added to the context, allowing the LLM to offer highly relevant product recommendations.</p>
+</blockquote>
+</section>
+<section id="structured-data-and-format" class="level3">
+<h3 class="anchored" data-anchor-id="structured-data-and-format">Structured Data and Format</h3>
+<p>The way information is presented to an LLM significantly impacts its ability to process and utilise that information. Well-organised, structured data (e.g., JSON, XML, or clearly delimited text) is far more effective than unstructured, messy data. Providing context in a consistent and predictable format reduces ambiguity and improves the LLM’s parsing and reasoning capabilities.</p>
+<blockquote class="blockquote">
+<p>When providing search results to an LLM, presenting them as a list of JSON objects with clear keys (e.g., <code>{"title": "...", "url": "...", "snippet": "..."}</code>) is much more effective than simply concatenating raw text. The structured format allows the LLM to easily identify and extract specific pieces of information, leading to more accurate and relevant responses.</p>
+</blockquote>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this first part of our three-part series, we’ve unpacked the foundations of context engineering - what it is, why it matters, and how it underpins the next generation of agentic AI systems. By exploring the pillars of context, from dynamic memory management to the integration of external tools and structured data, we’ve set the stage for building truly intelligent, reliable LLM applications.</p>
+<p>In Part 2, we’ll dive into how LangGraph provides the architectural framework to put these principles into practice, enabling you to engineer context with precision and flexibility. Stay tuned!</p>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a></div></div></section><section class="quarto-appendix-contents" id="quarto-citation"><h2 class="anchored quarto-appendix-heading">Citation</h2><div><div class="quarto-appendix-secondary-label">BibTeX citation:</div><pre class="sourceCode code-with-copy quarto-appendix-bibtex"><code class="sourceCode bibtex">@online{patel2025,
+  author = {Patel, Prashant},
+  title = {Context {Engineering:} {Building} {Smarter} {AI} {Agents} -
+    {Part} 1/3},
+  date = {2025-06-13},
+  url = {https://neuralware.github.io/posts/context-engineering-part-1/},
+  langid = {en}
+}
+</code></pre><div class="quarto-appendix-secondary-label">For attribution, please cite this work as:</div><div id="ref-patel2025" class="csl-entry quarto-appendix-citeas">
+Patel, Prashant. 2025. <span>“Context Engineering: Building Smarter AI
+Agents - Part 1/3.”</span> June 13, 2025. <a href="https://neuralware.github.io/posts/context-engineering-part-1/">https://neuralware.github.io/posts/context-engineering-part-1/</a>.
+</div></div></section></div> ]]></description>
+  <category>AI Agents</category>
+  <category>LangGraph</category>
+  <category>Context Engineering</category>
+  <guid>https://neuralware.github.io/posts/context-engineering-part-1/</guid>
+  <pubDate>Fri, 13 Jun 2025 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>MCP Explained: The Bridge Between AI and the Real World</title>
   <dc:creator>Prashant Patel</dc:creator>
