@@ -23,7 +23,6 @@ website:
     right:
       - text: "Posts"
         file: index.qmd
-      - about.qmd
       - icon: linkedin
         aria-label: linkedin
         href: https://www.linkedin.com/in/prashant-patel/
